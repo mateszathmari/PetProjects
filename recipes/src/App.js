@@ -1,7 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
+  const API_ID = "";
+  const API_KEY = "";
+  const EXAMPLEQUERRY = `https://api.edamam.com/search?q=chicken&app_id=${API_ID}&app_key=${API_KEY}`;
+
+  const getInfo = () => {
+    fetch(EXAMPLEQUERRY)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  getInfo();
+
   return (
     <div className="App">
       <header className="App-header">
