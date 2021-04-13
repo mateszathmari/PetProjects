@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function GetRecipes(query, dependencies) {
+export default function GetRecipes(query, from, to, dependencies) {
   const API_ID = "8cfa623e";
   const API_KEY = "a3dc989b7a01df6e08dd2567b0af1abd";
   const EXAMPLEQUERRY = `https://api.edamam.com/search?q=chicken&app_id=${API_ID}&app_key=${API_KEY}`;
@@ -11,8 +11,6 @@ export default function GetRecipes(query, dependencies) {
   const [error, setError] = useState(false);
   const [recipes, setRecipes] = useState([]);
   const [hasMore, setHasMore] = useState(false);
-  const from = 0;
-  const to = 10;
 
   useEffect(() => {
     setRecipes([]);
