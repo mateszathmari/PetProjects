@@ -1,10 +1,11 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import Recipe from "./components/Recipe";
+import GetRecipes from "./hooks/GetRecipes";
 
 function App() {
-  const API_ID = "";
-  const API_KEY = "";
+  const API_ID = "8cfa623e";
+  const API_KEY = "a3dc989b7a01df6e08dd2567b0af1abd";
   const EXAMPLEQUERRY = `https://api.edamam.com/search?q=chicken&app_id=${API_ID}&app_key=${API_KEY}`;
 
   //"https://api.edamam.com/search?q=chicken&app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}&from=0&to=3&calories=591-722&health=alcohol-free"
@@ -18,6 +19,7 @@ function App() {
   //       console.error(err);
   //     });
   // };
+  const [isLoading, fetchedData] = GetRecipes("chicken", []);
 
   const [recipes, setRecipes] = useState([]);
   const [drecipes, setdRecipes] = useState([]);
@@ -25,20 +27,20 @@ function App() {
   const [query, setQuery] = useState("chicken");
 
   useEffect(() => {
-    getRecipes();
+    //getRecipes();
   }, [query]);
 
   useEffect(() => {
     document.addEventListener("scroll", refreshEvent);
   }, []);
 
-  const getRecipes = async (from = 0, to = 10) => {
-    const response = await fetch(
-      `https://api.edamam.com/search?q=${query}&app_id=${API_ID}&app_key=${API_KEY}&from=${from}&to=${to}`
-    );
-    const data = await response.json();
-    setRecipes(data.hits);
-  };
+  // const getRecipes = async (from = 0, to = 10) => {
+  //   const response = await fetch(
+  //     `https://api.edamam.com/search?q=${query}&app_id=${API_ID}&app_key=${API_KEY}&from=${from}&to=${to}`
+  //   );
+  //   const data = await response.json();
+  //   setRecipes(data.hits);
+  // };
 
   const UpdateSearch = (e) => {
     setSearch(e.target.value);
@@ -55,8 +57,7 @@ function App() {
     console.log(app[0].offsetHeight + "max");
     console.log(window.pageYOffset + " actual");
     if (app[0].offsetHeight === window.pageYOffset + 500) {
-      setSearch(new Array(...recipes, ...recipes));
-      //alert("reached the bottom");
+      alert("reached the bottom");
     }
   };
 

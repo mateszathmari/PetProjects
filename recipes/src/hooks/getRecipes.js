@@ -1,5 +1,51 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-export default function getRecipes() {
-  return <div></div>;
+export default function GetRecipes(query, dependencies) {
+  const API_ID = "8cfa623e";
+  const API_KEY = "a3dc989b7a01df6e08dd2567b0af1abd";
+  const EXAMPLEQUERRY = `https://api.edamam.com/search?q=chicken&app_id=${API_ID}&app_key=${API_KEY}`;
+  //"https://api.edamam.com/search?q=chicken&app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}&from=0&to=3&calories=591-722&health=alcohol-free"
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [recipes, setRecipes] = useState([]);
+  const [hasMore, setHasMore] = useState(false);
+  const from = 0;
+  const to = 10;
+
+  useEffect(() => {
+    setRecipes([]);
+  }, [query]);
+
+  useEffect(() => {
+    setLoading(true);
+    setError(false);
+    let cancel;
+    axios({
+      method: "POST",
+      url: `https://api.edamam.com/search?q=${query}&app_id=${API_ID}&app_key=${API_KEY}&from=${from}&to=${to}`,
+      //   params: { q: query, page: pageNumber },
+      //   cancelToken: new axios.CancelToken((c) => (cancel = c)),
+    })
+      .then((response) => {
+        if (!response.status == 200) {
+          throw new Error("Failed to fetch.");
+        }
+        console.log(response);
+        return response;
+      })
+      .then((data) => {
+        setLoading(false);
+        setRecipes(data.data.hits);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  }, dependencies);
+
+  return [loading, recipes];
+
+  //return { loading, error, recipes, hasMore };
 }
