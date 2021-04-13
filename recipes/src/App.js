@@ -63,6 +63,7 @@ function App() {
 
   const loadMore = () => {
     setTo(to + 10);
+    setFrom(from + 10);
   };
 
   let content = <div className="App">Loading Recipes...</div>;
