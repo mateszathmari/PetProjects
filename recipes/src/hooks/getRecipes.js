@@ -23,8 +23,6 @@ export default function GetRecipes(query, from, to, dependencies) {
     axios({
       method: "POST",
       url: `https://api.edamam.com/search?q=${query}&app_id=${API_ID}&app_key=${API_KEY}&from=${from}&to=${to}`,
-      //   params: { q: query, page: pageNumber },
-      //   cancelToken: new axios.CancelToken((c) => (cancel = c)),
     })
       .then((response) => {
         if (!response.status == 200) {
@@ -38,7 +36,6 @@ export default function GetRecipes(query, from, to, dependencies) {
         setRecipes((prevBooks) => {
           return [...new Set([...prevBooks, ...data.data.hits])];
         });
-        // setRecipes(recipes.concat(data.data.hits));
       })
       .catch((err) => {
         console.log(err);
@@ -47,6 +44,4 @@ export default function GetRecipes(query, from, to, dependencies) {
   }, dependencies);
 
   return [loading, recipes];
-
-  //return { loading, error, recipes, hasMore };
 }
