@@ -1,8 +1,9 @@
 import React from "react";
 import { useStoreState, useStoreActions } from "easy-peasy";
 
-export default function NextContent(loading, hasMore) {
+export default function NextContent(hasMore) {
   const loadMore = useStoreActions((actions) => actions.search.loadMore);
+  const loading = useStoreState((state) => state.search.loading);
 
   let content = <div className="loading">Loading Recipes...</div>;
 

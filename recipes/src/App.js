@@ -15,10 +15,7 @@ function App() {
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("chicken");
 
-  let [loading, fetchedData, error, hasMore] = GetRecipes(query, from, to, [
-    query,
-    to,
-  ]);
+  let [fetchedData, error, hasMore] = GetRecipes(query, from, to, [query, to]);
 
   const UpdateSearch = (e) => {
     setSearch(e.target.value);
@@ -73,7 +70,7 @@ function App() {
           />
         ))}
       </div>
-      <NextContent loading={loading} hasMore={hasMore} />
+      <NextContent hasMore={hasMore} />
     </div>
   );
 }
