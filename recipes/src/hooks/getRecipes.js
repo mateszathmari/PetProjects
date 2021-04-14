@@ -35,7 +35,10 @@ export default function GetRecipes(query, from, to, dependencies) {
       })
       .then((data) => {
         setLoading(false);
-        setRecipes(recipes.concat(data.data.hits));
+        setRecipes((prevBooks) => {
+          return [...new Set([...prevBooks, ...data.data.hits])];
+        });
+        // setRecipes(recipes.concat(data.data.hits));
       })
       .catch((err) => {
         console.log(err);

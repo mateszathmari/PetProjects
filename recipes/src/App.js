@@ -26,36 +26,36 @@ function App() {
     setFrom(from + 10);
   };
 
-  let content = <div className="App">Loading Recipes...</div>;
-
+  let loading = <div className="loading">Loading Recipes...</div>;
   if (!isLoading) {
-    content = (
-      <div className="App">
-        <form onSubmit={getSearch}>
-          <input
-            className="search-bar"
-            type="text"
-            onChange={UpdateSearch}
-            placeholder="search here"
-            value={search}
-          />
-          <button className="search-button" type="submit">
-            Search
-          </button>
-        </form>
-        <div className="recipes">
-          {fetchedData.map((recipe) => (
-            <Recipe key={recipe.recipe.label} image={recipe.recipe.image} />
-          ))}
-        </div>
-        <div className="loadMore" onClick={loadMore}>
-          Click For More Content
-        </div>
+    loading = (
+      <div className="loadMore" onClick={loadMore}>
+        Click For More Content
       </div>
     );
   }
-
-  return content;
+  return (
+    <div className="App">
+      <form onSubmit={getSearch}>
+        <input
+          className="search-bar"
+          type="text"
+          onChange={UpdateSearch}
+          placeholder="search here"
+          value={search}
+        />
+        <button className="search-button" type="submit">
+          Search
+        </button>
+      </form>
+      <div className="recipes">
+        {fetchedData.map((recipe) => (
+          <Recipe key={recipe.recipe.label} image={recipe.recipe.image} />
+        ))}
+      </div>
+      {loading}
+    </div>
+  );
 }
 
 export default App;
