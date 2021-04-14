@@ -9,7 +9,10 @@ function App() {
   const [from, setFrom] = useState(0);
   const [to, setTo] = useState(10);
 
-  let [isLoading, fetchedData] = GetRecipes(query, from, to, [query, to]);
+  let [loading, fetchedData, error, hasMore] = GetRecipes(query, from, to, [
+    query,
+    to,
+  ]);
 
   const UpdateSearch = (e) => {
     setSearch(e.target.value);
@@ -18,6 +21,8 @@ function App() {
   const getSearch = (e) => {
     e.preventDefault();
     setQuery(search);
+    setTo(0);
+    setFrom(10);
     setSearch("");
   };
 
@@ -26,14 +31,18 @@ function App() {
     setFrom(from + 10);
   };
 
-  let loading = <div className="loading">Loading Recipes...</div>;
-  if (!isLoading) {
-    loading = (
-      <div className="loadMore" onClick={loadMore}>
+  let nextContent = <div className="loading">Loading Recipes...</div>;
+
+  if (!loading && hasMore) {
+    nextContent = (
+      <div className="load-more" onClick={loadMore}>
         Click For More Content
       </div>
     );
+  } else if (!loading && !hasMore) {
+    nextContent = <div className="no-more-content">No More Content</div>;
   }
+
   return (
     <div className="App">
       <form onSubmit={getSearch}>
@@ -53,7 +62,7 @@ function App() {
           <Recipe key={recipe.recipe.label} image={recipe.recipe.image} />
         ))}
       </div>
-      {loading}
+      {nextContent}
     </div>
   );
 }

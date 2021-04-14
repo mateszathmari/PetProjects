@@ -28,20 +28,26 @@ export default function GetRecipes(query, from, to, dependencies) {
         if (!response.status == 200) {
           throw new Error("Failed to fetch.");
         }
-        console.log(response);
         return response;
       })
       .then((data) => {
         setLoading(false);
+        if (data.data.count - to > 0) {
+          setHasMore(true);
+        } else {
+          setHasMore(false);
+        }
+        console.log(data.data.count);
         setRecipes((prevBooks) => {
           return [...new Set([...prevBooks, ...data.data.hits])];
         });
       })
       .catch((err) => {
         console.log(err);
+        setError(err);
         setLoading(false);
       });
   }, dependencies);
 
-  return [loading, recipes];
+  return [loading, recipes, error, hasMore];
 }
