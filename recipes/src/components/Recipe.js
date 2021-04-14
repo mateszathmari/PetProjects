@@ -2,7 +2,7 @@ import React from "react";
 
 const Recipe = ({ key, image }) => {
   return (
-    <div>
+    <div className="recipe">
       <img src={image} alt="asd" />
     </div>
   );
