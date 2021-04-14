@@ -25,7 +25,7 @@ export default function GetRecipes(query, from, to, dependencies) {
       url: `https://api.edamam.com/search?q=${query}&app_id=${API_ID}&app_key=${API_KEY}&from=${from}&to=${to}`,
     })
       .then((response) => {
-        if (!response.status == 200) {
+        if (!response.status === 200) {
           throw new Error("Failed to fetch.");
         }
         return response;
