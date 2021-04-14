@@ -17,58 +17,15 @@ function App() {
   const query = useStoreState((state) => state.search.query);
   const setQuery = useStoreActions((actions) => actions.search.setQuery);
 
-  // const [search, setSearch] = useState("");
-  // const [query, setQuery] = useState("chicken");
   if (query === "") {
     setQuery("chicken");
   }
 
   let [fetchedData, error, hasMore] = GetRecipes(query, from, to, [query, to]);
 
-  // const UpdateSearch = (e) => {
-  //   setSearch(e.target.value);
-  // };
-
-  // const getSearch = (e) => {
-  //   e.preventDefault();
-  //   setQuery(search);
-  //   setFrom(0);
-  //   setTo(10);
-  //   setSearch("");
-  // };
-
-  // const loadMore = () => {
-  //   setTo(to + 10);
-  //   setFrom(from + 10);
-  // };
-
-  // let nextContent = <div className="loading">Loading Recipes...</div>;
-
-  // if (!loading && hasMore) {
-  //   nextContent = (
-  //     <div className="load-more" onClick={loadMore}>
-  //       Click For More Content
-  //     </div>
-  //   );
-  // } else if (!loading && !hasMore) {
-  //   nextContent = <div className="no-more-content">No More Content</div>;
-  // }
-
   return (
     <div className="App">
       <Header />
-      {/* <form onSubmit={getSearch}>
-        <input
-          className="search-bar"
-          type="text"
-          onChange={UpdateSearch}
-          placeholder="search here"
-          value={search}
-        />
-        <button className="search-button" type="submit">
-          Search
-        </button>
-      </form> */}
       <div className="recipes">
         {fetchedData.map((recipe) => (
           <Recipe
