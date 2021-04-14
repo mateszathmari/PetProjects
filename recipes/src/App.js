@@ -2,12 +2,18 @@ import "./App.css";
 import { useState, useEffect } from "react";
 import Recipe from "./components/Recipe";
 import GetRecipes from "./hooks/GetRecipes";
+import Header from "./components/Header";
+import { useStoreState, useStoreActions } from "easy-peasy";
+import NextContent from "./components/NextContent";
 
 function App() {
+  const from = useStoreState((state) => state.search.from);
+  const setFrom = useStoreActions((actions) => actions.search.setFrom);
+  const to = useStoreState((state) => state.search.to);
+  const setTo = useStoreActions((actions) => actions.search.setTo);
+
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("chicken");
-  const [from, setFrom] = useState(0);
-  const [to, setTo] = useState(10);
 
   let [loading, fetchedData, error, hasMore] = GetRecipes(query, from, to, [
     query,
@@ -26,25 +32,26 @@ function App() {
     setSearch("");
   };
 
-  const loadMore = () => {
-    setTo(to + 10);
-    setFrom(from + 10);
-  };
+  // const loadMore = () => {
+  //   setTo(to + 10);
+  //   setFrom(from + 10);
+  // };
 
-  let nextContent = <div className="loading">Loading Recipes...</div>;
+  // let nextContent = <div className="loading">Loading Recipes...</div>;
 
-  if (!loading && hasMore) {
-    nextContent = (
-      <div className="load-more" onClick={loadMore}>
-        Click For More Content
-      </div>
-    );
-  } else if (!loading && !hasMore) {
-    nextContent = <div className="no-more-content">No More Content</div>;
-  }
+  // if (!loading && hasMore) {
+  //   nextContent = (
+  //     <div className="load-more" onClick={loadMore}>
+  //       Click For More Content
+  //     </div>
+  //   );
+  // } else if (!loading && !hasMore) {
+  //   nextContent = <div className="no-more-content">No More Content</div>;
+  // }
 
   return (
     <div className="App">
+      <Header />
       <form onSubmit={getSearch}>
         <input
           className="search-bar"
@@ -66,7 +73,7 @@ function App() {
           />
         ))}
       </div>
-      {nextContent}
+      <NextContent loading={loading} hasMore={hasMore} />
     </div>
   );
 }
