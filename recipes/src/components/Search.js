@@ -1,8 +1,27 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { useStoreState, useStoreActions } from "easy-peasy";
 import magnifying_glass from "../pic/magnifying_glass.png";
 
 export default function Search() {
+  const search = useStoreState((state) => state.search.search);
+  const setSearch = useStoreActions((actions) => actions.search.setSearch);
+  const setQuery = useStoreActions((actions) => actions.search.setQuery);
+  const setFrom = useStoreActions((actions) => actions.search.setFrom);
+  const setTo = useStoreActions((actions) => actions.search.setTo);
+
+  const UpdateSearch = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const getSearch = (e) => {
+    e.preventDefault();
+    setQuery(search);
+    setFrom(0);
+    setTo(10);
+    setSearch("");
+  };
+
   const Button = styled.button`
     background: transparent;
     border-radius: 4px;
@@ -21,10 +40,12 @@ export default function Search() {
   return (
     <div className="search-box">
       <div className="search">
-        <form>
+        <form onSubmit={getSearch}>
           <input
+            onChange={UpdateSearch}
             className="search-bar"
             type="text"
+            value={search}
             placeholder="What are you looking for?"
           />
           <Button className="search-button" type="submit" primary>

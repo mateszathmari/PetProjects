@@ -5,6 +5,8 @@ const store = createStore({
     from: 0,
     to: 10,
     loading: true,
+    search: "",
+    query: "",
     setFrom: action((state, number) => {
       state.from = number;
     }),
@@ -17,6 +19,12 @@ const store = createStore({
     }),
     setLoading: action((state, isLoading) => {
       state.loading = isLoading;
+    }),
+    setSearch: action((state, searchParameter) => {
+      state.search = searchParameter;
+    }),
+    setQuery: action((state, queryParameter) => {
+      state.query = queryParameter;
     }),
   },
 });
