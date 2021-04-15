@@ -7,6 +7,8 @@ import { useStoreState, useStoreActions } from "easy-peasy";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NextContent from "./components/NextContent";
 import RecipeDetails from "./components/RecipeDetails";
+import NavigationBar from "./components/NavigationBar";
+import About from "./components/About";
 
 function App() {
   const from = useStoreState((state) => state.search.from);
@@ -23,6 +25,7 @@ function App() {
   return (
     <div className="App">
       <Router>
+        <NavigationBar />
         <Switch>
           <Route exact path="/">
             <Header />
@@ -33,7 +36,8 @@ function App() {
             </div>
             <NextContent />
           </Route>
-          <Route path="/about">about</Route>
+          <Route path="/about" component={About} />
+
           <Route path="/recipe-details">
             <RecipeDetails />
           </Route>
