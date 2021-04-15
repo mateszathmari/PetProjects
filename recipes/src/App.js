@@ -15,7 +15,7 @@ function App() {
     setQuery("chicken");
   }
 
-  let [fetchedData, error, hasMore] = GetRecipes(query, from, to, [query, to]);
+  let [fetchedData] = GetRecipes(query, from, to, [query, to]);
 
   return (
     <div className="App">
@@ -29,7 +29,7 @@ function App() {
           />
         ))}
       </div>
-      <NextContent hasMore={hasMore} />
+      <NextContent />
     </div>
   );
 }

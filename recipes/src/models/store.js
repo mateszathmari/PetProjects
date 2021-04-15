@@ -7,6 +7,7 @@ const store = createStore({
     loading: true,
     search: "",
     query: "",
+    error: "",
     setFrom: action((state, number) => {
       state.from = number;
     }),
@@ -25,6 +26,9 @@ const store = createStore({
     }),
     setQuery: action((state, queryParameter) => {
       state.query = queryParameter;
+    }),
+    setError: action((state, isError) => {
+      state.error = isError;
     }),
   },
 });
