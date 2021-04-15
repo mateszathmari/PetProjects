@@ -1,6 +1,6 @@
 .recipe {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -8,12 +8,21 @@
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 100px;
+  padding: 80px;
 }
 
 .Food-title {
   font-size: 30pt;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.Advert {
+  width: 400px;
+  text-align: right;
+}
+
+.clock {
+  padding-right: 5px;
 }
 
 label {
@@ -32,7 +41,13 @@ th {
   margin-right: 20px;
   padding: 10px;
   background-image: linear-gradient(120deg, #ffffff 0%, #e7e3e5 100%);
-  /* background-color: rgba(201, 201, 201, 0.801); */
+  border-radius: 5px;
+}
+
+.Recipe-link {
+  margin-right: 20px;
+  padding: 10px;
+  background-image: linear-gradient(120deg, #ffffff 0%, #e7e3e5 100%);
   border-radius: 5px;
 }
 

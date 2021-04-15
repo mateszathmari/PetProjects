@@ -1,7 +1,9 @@
 import { Redirect, React } from "react";
 import { useStoreState } from "easy-peasy";
 import "../static/RecipeDetails.css";
-import sub from "../pic/Advert-Heinz.jpg";
+import heinz from "../pic/A-Heinz.jpg";
+import subWay from "../pic/A-Sub.jpg";
+import clock from "../pic/clock.png";
 
 export default function RecipeDetails() {
   const recipe = useStoreState((state) => state.actualView.recipe);
@@ -17,7 +19,10 @@ export default function RecipeDetails() {
               <div className="Food-title">{recipe.label}</div>
             </tr>
             <tr>
-              <div className="Total-time">{recipe.totalTime} mins</div>
+              <div className="Total-time">
+                <img className="clock" src={clock} alt="clock" width="14px" />
+                {recipe.totalTime > 0 ? recipe.totalTime : ""}
+              </div>
             </tr>
             <tr>
               <img className="recipe-image" src={recipe.image} alt="Food" />
@@ -40,10 +45,14 @@ export default function RecipeDetails() {
                 </dl>
               </th>
             </tr>
-            <tr>
-              <a href={recipe.url}>{recipe.url}</a>
-            </tr>
+            <a className="Recipe-link" href={recipe.url}>
+              For more information click
+            </a>
           </table>
+          <div className="Advert">
+            <img src={subWay} alt="Food" width="300px" />
+            <img src={heinz} alt="Food" width="300px" />
+          </div>
         </div>
       </div>
     );
