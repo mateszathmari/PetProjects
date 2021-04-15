@@ -28,11 +28,7 @@ function App() {
             <Header />
             <div className="recipes">
               {fetchedData.map((recipe) => (
-                <Recipe
-                  key={recipe.recipe.label}
-                  label={recipe.recipe.label}
-                  image={recipe.recipe.image}
-                />
+                <Recipe key={recipe.recipe.url} recipe={recipe.recipe} />
               ))}
             </div>
             <NextContent />

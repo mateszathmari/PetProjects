@@ -36,13 +36,9 @@ const store = createStore({
     }),
   },
   actualView: {
-    label: "",
-    img: "",
-    setLabel: action((state, labelParameter) => {
-      state.label = labelParameter;
-    }),
-    setImg: action((state, imgParameter) => {
-      state.img = imgParameter;
+    recipe: {},
+    setRecipe: action((state, recipe) => {
+      state.recipe = recipe;
     }),
   },
 });
