@@ -37,6 +37,7 @@ export default function GetRecipes(query, from, to, dependencies) {
         } else {
           setHasMore(false);
         }
+        console.log(data.data);
         setRecipes((prevBooks) => {
           return [...new Set([...prevBooks, ...data.data.hits])];
         });

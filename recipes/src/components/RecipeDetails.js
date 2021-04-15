@@ -2,16 +2,15 @@ import { React } from "react";
 import { useStoreState } from "easy-peasy";
 
 export default function RecipeDetails() {
-  const image = useStoreState((state) => state.actualView.img);
-  const label = useStoreState((state) => state.actualView.label);
+  const recipe = useStoreState((state) => state.actualView.recipe);
 
   let content = <div>loading</div>;
 
-  if (label !== "") {
+  if (recipe.label !== "") {
     content = (
       <div>
-        <div>{label}</div>
-        <img src={image} alt="Food" />
+        <div>{recipe.label}</div>
+        <img src={recipe.image} alt="Food" />
       </div>
     );
   }

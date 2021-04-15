@@ -1,36 +1,6 @@
 import { createStore, action } from "easy-peasy";
 
 const store = createStore({
-  actualRecipe: {
-    calories,
-    dietLabels,
-    image,
-    ingredientLines,
-    label,
-    totalTime,
-    url,
-    setCalories: action((state, calories) => {
-      state.calories = calories;
-    }),
-    setDietLabels: action((state, dietLabels) => {
-      state.dietLabels = dietLabels;
-    }),
-    setImage: action((state, image) => {
-      state.image = image;
-    }),
-    setIngredientLines: action((state, ingredientLines) => {
-      state.ingredientLines = ingredientLines;
-    }),
-    setLabel: action((state, label) => {
-      state.label = label;
-    }),
-    setTotalTime: action((state, totalTime) => {
-      state.totalTime = totalTime;
-    }),
-    setUrl: action((state, url) => {
-      state.url = url;
-    }),
-  },
   search: {
     from: 0,
     to: 12,
@@ -66,13 +36,9 @@ const store = createStore({
     }),
   },
   actualView: {
-    label: "",
-    img: "",
-    setLabel: action((state, labelParameter) => {
-      state.label = labelParameter;
-    }),
-    setImg: action((state, imgParameter) => {
-      state.img = imgParameter;
+    recipe: {},
+    setRecipe: action((state, recipe) => {
+      state.recipe = recipe;
     }),
   },
 });
