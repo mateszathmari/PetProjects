@@ -67,6 +67,11 @@
   border-radius: 4px;
 }
 
+.About {
+  background-image: linear-gradient(to right, #1b0466cb 0%, #10023d 100%);
+  padding: 100px;
+}
+
 .Navigation-bar {
   padding-left: 100px;
   padding-right: 100px;
