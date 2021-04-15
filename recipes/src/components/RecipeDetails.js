@@ -1,13 +1,14 @@
-import { React } from "react";
+import { Redirect, React } from "react";
 import { useStoreState } from "easy-peasy";
 import "../static/RecipeDetails.css";
+import sub from "../pic/Advert-Heinz.jpg";
 
 export default function RecipeDetails() {
   const recipe = useStoreState((state) => state.actualView.recipe);
 
   let content = <div>loading</div>;
 
-  if (recipe.label !== "") {
+  if (recipe.label !== undefined) {
     content = (
       <div className="Recipe">
         <div className="Table">
@@ -46,6 +47,8 @@ export default function RecipeDetails() {
         </div>
       </div>
     );
+  } else {
+    window.location.replace("/");
   }
 
   return content;
