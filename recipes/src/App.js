@@ -3,6 +3,7 @@ import Recipe from "./components/Recipe";
 import GetRecipes from "./hooks/GetRecipes";
 import Header from "./components/Header";
 import { useStoreState, useStoreActions } from "easy-peasy";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NextContent from "./components/NextContent";
 
 function App() {
@@ -18,19 +19,31 @@ function App() {
   let [fetchedData] = GetRecipes(query, from, to, [query, to]);
 
   return (
-    <div className="App">
-      <Header />
-      <div className="recipes">
-        {fetchedData.map((recipe) => (
-          <Recipe
-            key={recipe.recipe.label}
-            label={recipe.recipe.label}
-            image={recipe.recipe.image}
-          />
-        ))}
-      </div>
-      <NextContent />
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <div className="App">
+            <Header />
+            <div className="recipes">
+              {fetchedData.map((recipe) => (
+                <Recipe
+                  key={recipe.recipe.label}
+                  label={recipe.recipe.label}
+                  image={recipe.recipe.image}
+                />
+              ))}
+            </div>
+            <NextContent />
+          </div>
+        </Route>
+        <Route path="/about">
+          <div className="App">about</div>
+        </Route>
+        <Route path="/recipe-details">
+          <div className="App">details</div>
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 

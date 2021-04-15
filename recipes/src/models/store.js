@@ -31,6 +31,16 @@ const store = createStore({
       state.error = isError;
     }),
   },
+  actualView: {
+    label: "",
+    img: "",
+    setLabel: action((state, labelParameter) => {
+      state.label = labelParameter;
+    }),
+    setImg: action((state, imgParameter) => {
+      state.img = imgParameter;
+    }),
+  },
 });
 
 export default store;
