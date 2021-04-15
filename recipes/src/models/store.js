@@ -3,7 +3,7 @@ import { createStore, action } from "easy-peasy";
 const store = createStore({
   search: {
     from: 0,
-    to: 10,
+    to: 12,
     loading: true,
     search: "",
     query: "",
@@ -16,8 +16,8 @@ const store = createStore({
       state.to = number;
     }),
     loadMore: action((state) => {
-      state.from = state.from + 10;
-      state.to = state.to + 10;
+      state.from = state.from + 12;
+      state.to = state.to + 12;
     }),
     setLoading: action((state, isLoading) => {
       state.loading = isLoading;
