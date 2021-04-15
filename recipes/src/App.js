@@ -2,9 +2,11 @@ import "./App.css";
 import Recipe from "./components/Recipe";
 import GetRecipes from "./hooks/GetRecipes";
 import Header from "./components/Header";
+import React from "react";
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NextContent from "./components/NextContent";
+import RecipeDetails from "./components/RecipeDetails";
 
 function App() {
   const from = useStoreState((state) => state.search.from);
@@ -19,10 +21,10 @@ function App() {
   let [fetchedData] = GetRecipes(query, from, to, [query, to]);
 
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/">
-          <div className="App">
+    <div className="App">
+      <Router>
+        <Switch>
+          <Route exact path="/">
             <Header />
             <div className="recipes">
               {fetchedData.map((recipe) => (
@@ -34,16 +36,14 @@ function App() {
               ))}
             </div>
             <NextContent />
-          </div>
-        </Route>
-        <Route path="/about">
-          <div className="App">about</div>
-        </Route>
-        <Route path="/recipe-details">
-          <div className="App">details</div>
-        </Route>
-      </Switch>
-    </Router>
+          </Route>
+          <Route path="/about">about</Route>
+          <Route path="/recipe-details">
+            <RecipeDetails />
+          </Route>
+        </Switch>
+      </Router>
+    </div>
   );
 }
 
