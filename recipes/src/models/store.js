@@ -8,6 +8,7 @@ const store = createStore({
     search: "",
     query: "",
     error: "",
+    hasMore: false,
     setFrom: action((state, number) => {
       state.from = number;
     }),
@@ -29,6 +30,9 @@ const store = createStore({
     }),
     setError: action((state, isError) => {
       state.error = isError;
+    }),
+    setHasMore: action((state, hasMoreValue) => {
+      state.hasMore = hasMoreValue;
     }),
   },
   actualView: {

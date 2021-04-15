@@ -8,7 +8,12 @@ export default function RecipeDetails() {
   let content = <div>loading</div>;
 
   if (label != "") {
-    content = <div>{label}</div>;
+    content = (
+      <div>
+        <div>{label}</div>
+        <img src={image} />
+      </div>
+    );
   }
 
   return content;

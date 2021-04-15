@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
-import { useStoreActions } from "easy-peasy";
+import { useStoreState, useStoreActions } from "easy-peasy";
 import axios from "axios";
 
 export default function GetRecipes(query, from, to, dependencies) {
   const API_ID = "8cfa623e";
   const API_KEY = "a3dc989b7a01df6e08dd2567b0af1abd";
+  const hasMore = useStoreState((actions) => actions.search.hasMore);
+  const setHasMore = useStoreActions((actions) => actions.search.setHasMore);
   const setLoading = useStoreActions((actions) => actions.search.setLoading);
   const setError = useStoreActions((actions) => actions.search.setError);
   //"https://api.edamam.com/search?q=chicken&app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}&from=0&to=3&calories=591-722&health=alcohol-free"
 
   const [recipes, setRecipes] = useState([]);
-  const [hasMore, setHasMore] = useState(false);
+  // const [hasMore, setHasMore] = useState(false);
 
   useEffect(() => {
     setRecipes([]);
