@@ -6,6 +6,7 @@ import subWay from "../pic/A-Sub.jpg";
 import clock from "../pic/clock.png";
 
 export default function RecipeDetails() {
+  window.scrollTo(0, 0);
   const recipe = useStoreState((state) => state.actualView.recipe);
 
   let content = <div>loading</div>;
