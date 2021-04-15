@@ -1,4 +1,4 @@
-import { useEffect, React } from "react";
+import { React } from "react";
 import { useStoreState } from "easy-peasy";
 
 export default function RecipeDetails() {
@@ -7,11 +7,11 @@ export default function RecipeDetails() {
 
   let content = <div>loading</div>;
 
-  if (label != "") {
+  if (label !== "") {
     content = (
       <div>
         <div>{label}</div>
-        <img src={image} />
+        <img src={image} alt="Food" />
       </div>
     );
   }

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useStoreState, useStoreActions } from "easy-peasy";
+import { useStoreActions } from "easy-peasy";
 
 const Recipe = ({ label, image }) => {
   const setRecipeImage = useStoreActions((state) => state.actualView.setImg);
