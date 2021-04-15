@@ -4,6 +4,7 @@ import "../static/RecipeDetails.css";
 import heinz from "../pic/A-Heinz.jpg";
 import subWay from "../pic/A-Sub.jpg";
 import clock from "../pic/clock.png";
+import { Link } from "react-router-dom";
 
 export default function RecipeDetails() {
   window.scrollTo(0, 0);
@@ -58,7 +59,12 @@ export default function RecipeDetails() {
       </div>
     );
   } else {
-    window.location.replace("/");
+    content = (
+      <div>
+        There are no recipe found... Go back to home page and search again
+        <Link to={`/`}>Home</Link>
+      </div>
+    );
   }
 
   return content;
