@@ -16,7 +16,7 @@ export default function NextContent() {
       </div>
     );
   } else if (!loading && !hasMore) {
-    content = <div className="no-more-content">No More Content</div>;
+    content = <div className="no-content">Please search for recipes</div>;
   } else if (error) {
     content = <div className="error">Some error has occur...</div>;
   }
