@@ -8,11 +8,23 @@ export default function Login() {
   };
 
   return (
-    <div className="Login">
-      <form onSubmit={login}>
-        <input type="text" name="username" placeholder="Username" />
-        <input type="password" name="password" placeholder="Password" />
-        <button type="submit">Login</button>
+    <div className="Container">
+      <form className="Login" onSubmit={login}>
+        <input
+          className="Login-element"
+          type="text"
+          name="username"
+          placeholder="Username"
+        />
+        <input
+          className="Login-element"
+          type="password"
+          name="password"
+          placeholder="Password"
+        />
+        <button className="Login-element" type="submit">
+          Login
+        </button>
       </form>
     </div>
   );
