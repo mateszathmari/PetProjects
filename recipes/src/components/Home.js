@@ -1,4 +1,4 @@
-import { useEffect, React } from "react";
+import { React } from "react";
 import Search from "./Search";
 import logo from "../pic/logo.png";
 import { Redirect } from "react-router";

@@ -1,6 +1,4 @@
-import { Redirect, React } from "react";
-import { Link } from "react-router-dom";
-import logo from "../pic/logo.png";
+import { React } from "react";
 import easyPeasy from "../pic/easy-peasy.png";
 import github from "../pic/github.png";
 import htmlCss from "../pic/html-css.png";

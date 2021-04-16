@@ -1,4 +1,4 @@
-import { Redirect, React } from "react";
+import { React } from "react";
 import { useStoreState } from "easy-peasy";
 import "../static/RecipeDetails.css";
 import heinz from "../pic/A-Heinz.jpg";

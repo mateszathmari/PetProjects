@@ -14,7 +14,6 @@ export default function GetRecipes(query, from, to, dependencies) {
   //"https://api.edamam.com/search?q=chicken&app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}&from=0&to=3&calories=591-722&health=alcohol-free"
 
   const [recipes, setRecipes] = useState([]);
-  // const [hasMore, setHasMore] = useState(false);
 
   useEffect(() => {
     setRecipes([]);

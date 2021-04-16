@@ -3,7 +3,7 @@ import Recipe from "./components/Recipe";
 import GetRecipes from "./hooks/getRecipes";
 import Header from "./components/Header";
 import React from "react";
-import { useStoreState, useStoreActions } from "easy-peasy";
+import { useStoreState } from "easy-peasy";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NextContent from "./components/NextContent";
 import RecipeDetails from "./components/RecipeDetails";
@@ -16,7 +16,6 @@ function App() {
   const from = useStoreState((state) => state.search.from);
   const to = useStoreState((state) => state.search.to);
   const query = useStoreState((state) => state.search.query);
-  const setQuery = useStoreActions((actions) => actions.search.setQuery);
   let [fetchedData] = GetRecipes(query, from, to, [query, to]);
 
   return (
