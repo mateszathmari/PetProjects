@@ -28,9 +28,6 @@ function App() {
           </Route>
           <Route path="/about" component={About} />
 
-          <Route path="/recipe-details">
-            <RecipeDetails />
-          </Route>
           <Route path="/recipes">
             <Header />
             <div className="recipes">
@@ -39,6 +36,9 @@ function App() {
               ))}
             </div>
             <NextContent />
+          </Route>
+          <Route path="/recipe-details">
+            <RecipeDetails />
           </Route>
         </Switch>
         <Footer />
