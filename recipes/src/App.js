@@ -1,6 +1,6 @@
 import "./App.css";
 import Recipe from "./components/Recipe";
-import GetRecipes from "./hooks/GetRecipes";
+import GetRecipes from "./hooks/getRecipes";
 import Header from "./components/Header";
 import React from "react";
 import { useStoreState, useStoreActions } from "easy-peasy";
