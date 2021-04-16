@@ -18,7 +18,7 @@ export default function Search() {
     e.preventDefault();
     setQuery(search);
     setFrom(0);
-    setTo(10);
+    setTo(12);
     setSearch("");
   };
 
