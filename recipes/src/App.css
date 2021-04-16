@@ -51,6 +51,10 @@
   border-radius: 5px;
 }
 
+.logo {
+  padding-left: 10px;
+}
+
 .search-box {
   display: flex;
   justify-content: center;
@@ -73,7 +77,8 @@
   padding: 100px;
 }
 
-.Navigation-bar {
+.Navigation-bar,
+.Footer {
   padding-left: 100px;
   padding-right: 100px;
   background-image: linear-gradient(to right, #0c022e 0%, #07011a 100%);

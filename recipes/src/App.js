@@ -10,6 +10,7 @@ import RecipeDetails from "./components/RecipeDetails";
 import NavigationBar from "./components/NavigationBar";
 import About from "./components/About";
 import Home from "./components/Home";
+import Footer from "./components/Footer";
 
 function App() {
   const from = useStoreState((state) => state.search.from);
@@ -41,6 +42,7 @@ function App() {
             <NextContent />
           </Route>
         </Switch>
+        <Footer />
       </Router>
     </div>
   );
