@@ -7,10 +7,14 @@ const store = createStore({
     loading: true,
     search: "",
     query: "",
+    queryInProgress: "",
     error: "",
     hasMore: false,
     setFrom: action((state, number) => {
       state.from = number;
+    }),
+    setQueryInProgress: action((state, queryInProgress) => {
+      state.queryInProgress = queryInProgress;
     }),
     setTo: action((state, number) => {
       state.to = number;
