@@ -22,6 +22,7 @@
   align-items: flex-start;
   align-content: space-between;
   padding: 5px;
+  background-image: linear-gradient(to right, #d0c5f5cb 0%, #afa4d4 100%);
 }
 
 .recipe {
@@ -56,7 +57,7 @@
   align-items: center;
   height: 100px;
   width: 600px;
-  background-color: #f09f9f;
+  background-image: linear-gradient(to right, #1b0466cb 0%, #10023d 100%);
   opacity: 0.85;
   border-radius: 5px;
 }
@@ -114,6 +115,15 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.Home {
+  background-image: linear-gradient(to right, #1b0466cb 0%, #10023d 100%);
+  padding: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 }
 
 @keyframes App-logo-spin {
