@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Dosis&display=swap");
+
 .App {
   text-align: center;
 }
@@ -32,15 +34,13 @@
   left: 50%;
   padding: 5px;
   padding-bottom: 25px;
-
-  /* transform: translate(-50%, -50%); */
-  /* box-sizing: content-box; */
   box-shadow: 2px 2px 10px rgb(184, 180, 180);
   border-radius: 5px;
 }
 
 .title-text {
-  font-family: sans-serif;
+  font-family: "Dosis", sans-serif;
+  font-size: 15pt;
   font-weight: bold;
   margin-top: 9px;
   color: rgb(15, 15, 15);

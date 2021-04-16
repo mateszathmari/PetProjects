@@ -27,7 +27,12 @@ export default function RecipeDetails() {
               </div>
             </tr>
             <tr>
-              <img className="recipe-image" src={recipe.image} alt="Food" />
+              <img
+                className="recipe-image"
+                src={recipe.image}
+                alt="Food"
+                width="400px"
+              />
             </tr>
             <tr>
               <th>
