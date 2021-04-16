@@ -11,6 +11,7 @@ import NavigationBar from "./components/NavigationBar";
 import About from "./components/About";
 import Home from "./components/Home";
 import Footer from "./components/Footer";
+import Login from "./components/Login";
 
 function App() {
   const from = useStoreState((state) => state.search.from);
@@ -23,14 +24,10 @@ function App() {
       <Router>
         <NavigationBar />
         <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
+          <Route exact path="/" component={Home} />
           <Route path="/about" component={About} />
+          <Route path="/login" component={Login} />
 
-          <Route path="/recipe-details">
-            <RecipeDetails />
-          </Route>
           <Route path="/recipes">
             <Header />
             <div className="recipes">
@@ -39,6 +36,9 @@ function App() {
               ))}
             </div>
             <NextContent />
+          </Route>
+          <Route path="/recipe-details">
+            <RecipeDetails />
           </Route>
         </Switch>
         <Footer />

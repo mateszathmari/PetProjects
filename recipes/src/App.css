@@ -25,6 +25,26 @@
   background-image: linear-gradient(to right, #d0c5f5cb 0%, #afa4d4 100%);
 }
 
+.Login {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 100px;
+}
+
+.Login-element {
+  padding: 5px;
+  margin: 10px;
+  border-radius: 3px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .recipe {
   width: 310px;
   display: flex;
