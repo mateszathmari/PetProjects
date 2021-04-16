@@ -27,7 +27,13 @@ function App() {
       <Router>
         <NavigationBar />
         <Switch>
-          <Route exact path="/">
+          <Route exact path="/"></Route>
+          <Route path="/about" component={About} />
+
+          <Route path="/recipe-details">
+            <RecipeDetails />
+          </Route>
+          <Route path="/recipes">
             <Header />
             <div className="recipes">
               {fetchedData.map((recipe) => (
@@ -35,11 +41,6 @@ function App() {
               ))}
             </div>
             <NextContent />
-          </Route>
-          <Route path="/about" component={About} />
-
-          <Route path="/recipe-details">
-            <RecipeDetails />
           </Route>
         </Switch>
       </Router>
