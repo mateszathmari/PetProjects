@@ -15,6 +15,9 @@ export default function NavigationBar() {
       <Link className="Navigation-text" to={"/about"}>
         About
       </Link>
+      <Link className="Navigation-text" to={"/login"}>
+        Login
+      </Link>
     </div>
   );
 }
