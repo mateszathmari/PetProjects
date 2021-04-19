@@ -95,6 +95,10 @@
 .About {
   background-image: linear-gradient(to right, #1b0466cb 0%, #10023d 100%);
   padding: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .Navigation-bar,
@@ -136,6 +140,11 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.dev-pic {
+  border-radius: 50px;
+  margin-top: 20px;
 }
 
 .App-link {
