@@ -13,7 +13,14 @@ Info:
 The story behind. I wanted to refresh my knowledge in React right after I finished my studies in codecool Full-Stack course. In Codecool we usually work on a team project and I wanted to make a solo project for a better view of all the parts of the application.
 
 ## About
-This is a frontend project with React, about recipes, as part of [Pet Projects](https://github.com/mateszathmari/PetProjects)<br> The project communicates with "api.edamam.com" API.
+This is a frontend project with React, about recipes, as part of [Pet Projects](https://github.com/mateszathmari/PetProjects)<br> 
+
+* The project communicates with "api.edamam.com" API.
+* Using Axios for fetching data.
+* Easy-peasy for storing variables/ methods.
+* Custom hook for fetching data.
+
+
 
 ## Project Start
 In the project directory, you can run:
