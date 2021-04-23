@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EFDataAccess.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace RecipesAPI
 {
@@ -41,6 +43,8 @@ namespace RecipesAPI
                     });
             });
 
+            services.AddDbContext<UserContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("Default")));
             services.AddControllers();
         }
 
