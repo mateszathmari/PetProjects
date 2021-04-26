@@ -10,6 +10,9 @@ namespace EFDataAccess.DataAccess
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Token> Tokens { get; set; }
  
     }
 }
