@@ -47,10 +47,11 @@ namespace RecipesAPI.Controllers
             [FromForm] string email, [FromForm] string city, [FromForm] string street, [FromForm] int houseNumber,
             [FromForm] string postCode)
         {
-            User loginningUser = _sqlUserHandler.GetUser(username); // we should here validate the email as well
-            if (loginningUser != null)
+            User loginningUserName = _sqlUserHandler.GetUser(username);
+            bool isLoginningUserEmailTaken = _sqlUserHandler.GetUsers().Any(x => x.Email == email);
+            if (loginningUserName != null || isLoginningUserEmailTaken)
             {
-                return BadRequest("username already taken");
+                return BadRequest("username or email already taken");
             }
 
             Address userAddress = new Address(city, street, houseNumber, postCode);
