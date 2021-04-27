@@ -39,15 +39,15 @@ namespace EFDataAccess.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserName = table.Column<string>(maxLength: 100, nullable: false),
                     Email = table.Column<string>(maxLength: 200, nullable: false),
                     AddressId = table.Column<int>(nullable: false),
-                    TokenStringId = table.Column<int>(nullable: true)
+                    TokenStringId = table.Column<int>(nullable: true),
+                    HashedPassword = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.UserName);
                     table.ForeignKey(
                         name: "FK_Users_Addresses_AddressId",
                         column: x => x.AddressId,
@@ -69,23 +69,23 @@ namespace EFDataAccess.Migrations
                     id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false),
-                    UserId = table.Column<int>(nullable: true)
+                    UserName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Recipes", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Recipes_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Recipes_Users_UserName",
+                        column: x => x.UserName,
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "UserName",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Recipes_UserId",
+                name: "IX_Recipes_UserName",
                 table: "Recipes",
-                column: "UserId");
+                column: "UserName");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_AddressId",

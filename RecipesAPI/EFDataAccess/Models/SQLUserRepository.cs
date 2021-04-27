@@ -12,9 +12,9 @@ namespace RecipesAPI.Models
             _context = context;
         }
 
-        public User GetUser(int id)
+        public User GetUser(string username)
         {
-            return _context.Users.Find(id);
+            return _context.Users.Find(username);
         }
 
         public IEnumerable<User> GetUsers()
@@ -37,9 +37,9 @@ namespace RecipesAPI.Models
             return userChanges;
         }
 
-        public User DeleteUser(int id)
+        public User DeleteUser(string username)
         {
-            User user = _context.Users.Find(id);
+            User user = _context.Users.Find(username);
             if (user != null)
             {
                 _context.Users.Remove(user);

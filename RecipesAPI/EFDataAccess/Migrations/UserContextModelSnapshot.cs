@@ -61,12 +61,12 @@ namespace EFDataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserName");
 
                     b.ToTable("Recipes");
                 });
@@ -90,10 +90,9 @@ namespace EFDataAccess.Migrations
 
             modelBuilder.Entity("RecipesAPI.Models.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
@@ -103,10 +102,13 @@ namespace EFDataAccess.Migrations
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
+                    b.Property<string>("HashedPassword")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("TokenStringId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserName");
 
                     b.HasIndex("AddressId");
 
@@ -119,7 +121,7 @@ namespace EFDataAccess.Migrations
                 {
                     b.HasOne("RecipesAPI.Models.User", null)
                         .WithMany("Recipes")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserName");
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.User", b =>

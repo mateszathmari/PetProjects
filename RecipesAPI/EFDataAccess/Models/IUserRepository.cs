@@ -4,10 +4,10 @@ namespace RecipesAPI.Models
 {
     public interface IUserRepository
     {
-        User GetUser(int id);
+        User GetUser(string username);
         IEnumerable<User> GetUsers();
         User AddUser(User person);
         User updateUser(User personChanges);
-        User DeleteUser(int id);
+        User DeleteUser(string username);
     }
 }
