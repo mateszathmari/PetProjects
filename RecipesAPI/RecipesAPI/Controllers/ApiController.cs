@@ -16,20 +16,47 @@ namespace RecipesAPI.Controllers
     {
         private readonly ILogger<ApiController> _logger;
         private readonly UserContext context;
-        private SQLUserRepository _db;
+        private SQLUserRepository _sqlUserHandler;
 
         public ApiController(ILogger<ApiController> logger, UserContext context)
         {
             _logger = logger;
-            _db = new SQLUserRepository(context);
+            _sqlUserHandler = new SQLUserRepository(context);
         }
 
 
-
-        [HttpGet()]
-        public string Get()
+        [HttpPost("login")]
+        public IActionResult Login([FromForm] string username, [FromForm] string password)
         {
-            return "data";
+            User loginningUser = _sqlUserHandler.GetUser(username);
+            if (loginningUser == null)
+            {
+                return BadRequest();
+            }
+
+            if (loginningUser.IsValidPassword(password))
+            {
+                return Ok("successfully logged in");
+            }
+
+            return BadRequest();
+        }
+
+        [HttpPost("registration")]
+        public IActionResult Registration([FromForm] string username, [FromForm] string password,
+            [FromForm] string email, [FromForm] string city, [FromForm] string street, [FromForm] int houseNumber,
+            [FromForm] string postCode)
+        {
+            User loginningUser = _sqlUserHandler.GetUser(username); // we should here validate the email as well
+            if (loginningUser != null)
+            {
+                return BadRequest("username already taken");
+            }
+
+            Address userAddress = new Address(city, street, houseNumber, postCode);
+            User user = new User(username, email, userAddress, password); // we should validate the password as well if it strong enough
+            _sqlUserHandler.AddUser(user);
+            return Ok("successful registration");
         }
     }
 }
