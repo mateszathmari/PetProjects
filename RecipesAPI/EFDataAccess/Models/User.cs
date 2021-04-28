@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
@@ -13,7 +14,7 @@ namespace RecipesAPI.Models
         [Key] [MaxLength(100)] public string UserName { get; set; }
         [Required] [MaxLength(200)] public string Email { get; set; }
         [Required] [MaxLength(300)] public Address Address { get; set; }
-        public Token TokenString { get; set; }
+        public string Token { get; set; }
         public string HashedPassword { get; set; }
         public List<Recipe> Recipes { get; set; } = new List<Recipe>();
 
@@ -32,7 +33,7 @@ namespace RecipesAPI.Models
         private string HashingPassword(string password)
         {
             // generate a 128-bit salt using a secure PRNG
-            
+
             string saltString = "SfHfrgd54af4Ghxxc8WxfSSD5y2vdg5dsg6";
             byte[] salt = Encoding.ASCII.GetBytes(saltString);
 
@@ -60,6 +61,56 @@ namespace RecipesAPI.Models
             }
 
             return false;
+        }
+
+        public string GenerateToken()
+        {
+            // generate token without time stamp
+            //string token = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+
+            //generate token with time stamp
+            byte[] time = BitConverter.GetBytes(DateTime.UtcNow.ToBinary());
+            byte[] key = Guid.NewGuid().ToByteArray();
+            Token = Convert.ToBase64String(time.Concat(key).ToArray());
+            return Token;
+        }
+
+        public void DeleteToken()
+        {
+            this.Token = null;
+        }
+
+        private bool HasExpired()
+        {
+            // validate token expiration lives for 24 hours
+
+            byte[] data = Convert.FromBase64String(Token);
+            DateTime now = DateTime.FromBinary(BitConverter.ToInt64(data, 0));
+            return now < DateTime.UtcNow.AddHours(-24);
+        }
+
+        public bool IsValidToken(string givenToken)
+        {
+            if (Token == null)
+            {
+                return false;
+            }
+            else if (HasExpired())
+            {
+                DeleteToken();
+                return false;
+            }
+            else
+            {
+                if (givenToken == Token)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
     }
 }
