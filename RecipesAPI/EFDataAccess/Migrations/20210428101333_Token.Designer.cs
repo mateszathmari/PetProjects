@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFDataAccess.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20210427070250_Initial")]
-    partial class Initial
+    [Migration("20210428101333_Token")]
+    partial class Token
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -52,6 +52,38 @@ namespace EFDataAccess.Migrations
                     b.ToTable("Addresses");
                 });
 
+            modelBuilder.Entity("RecipesAPI.Models.HealthLabel", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<int?>("Recipeid")
+                        .HasColumnType("int");
+
+                    b.HasKey("Name");
+
+                    b.HasIndex("Recipeid");
+
+                    b.ToTable("HealthLabel");
+                });
+
+            modelBuilder.Entity("RecipesAPI.Models.Ingredient", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<int?>("Recipeid")
+                        .HasColumnType("int");
+
+                    b.HasKey("Name");
+
+                    b.HasIndex("Recipeid");
+
+                    b.ToTable("Ingredient");
+                });
+
             modelBuilder.Entity("RecipesAPI.Models.Recipe", b =>
                 {
                     b.Property<int>("id")
@@ -59,9 +91,18 @@ namespace EFDataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RecipeLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TotalTime")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(100)");
@@ -71,23 +112,6 @@ namespace EFDataAccess.Migrations
                     b.HasIndex("UserName");
 
                     b.ToTable("Recipes");
-                });
-
-            modelBuilder.Entity("RecipesAPI.Models.Token", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("TokenString")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tokens");
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.User", b =>
@@ -107,16 +131,28 @@ namespace EFDataAccess.Migrations
                     b.Property<string>("HashedPassword")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TokenStringId")
-                        .HasColumnType("int");
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserName");
 
                     b.HasIndex("AddressId");
 
-                    b.HasIndex("TokenStringId");
-
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("RecipesAPI.Models.HealthLabel", b =>
+                {
+                    b.HasOne("RecipesAPI.Models.Recipe", null)
+                        .WithMany("HealthLabels")
+                        .HasForeignKey("Recipeid");
+                });
+
+            modelBuilder.Entity("RecipesAPI.Models.Ingredient", b =>
+                {
+                    b.HasOne("RecipesAPI.Models.Recipe", null)
+                        .WithMany("IngredientList")
+                        .HasForeignKey("Recipeid");
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.Recipe", b =>
@@ -133,10 +169,6 @@ namespace EFDataAccess.Migrations
                         .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("RecipesAPI.Models.Token", "TokenString")
-                        .WithMany()
-                        .HasForeignKey("TokenStringId");
                 });
 #pragma warning restore 612, 618
         }
