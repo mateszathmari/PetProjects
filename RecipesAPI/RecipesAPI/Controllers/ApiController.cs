@@ -59,5 +59,23 @@ namespace RecipesAPI.Controllers
             _sqlUserHandler.AddUser(user);
             return Ok("successful registration");
         }
+
+        [HttpDelete("delete")]
+        public IActionResult DeleteUser([FromForm]string username, [FromForm] string password)
+        {
+            User loginningUser = _sqlUserHandler.GetUser(username);
+            if (loginningUser == null)
+            {
+                return BadRequest();
+            }
+
+            if (loginningUser.IsValidPassword(password))
+            {
+                _sqlUserHandler.DeleteUser(username);
+                return Ok("user successfully deleted");
+            }
+
+            return BadRequest();
+        }
     }
 }
