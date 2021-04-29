@@ -1,10 +1,27 @@
+import { getDefaultNormalizer } from "@testing-library/dom";
 import React from "react";
+import axios from "axios";
+import sendAjax from "../controllers/ApiController";
 
 export default function Login() {
   const login = (e) => {
     e.preventDefault();
-    console.log(e.target.username.value);
-    console.log(e.target.password.value);
+    // console.log(e.target.username.value);
+    // console.log(e.target.password.value);
+
+    let newLogin = {
+      username: e.target.username.value,
+      password: e.target.password.value,
+    };
+
+    let jsonData = JSON.stringify(newLogin);
+
+    sendAjax(
+      "https://localhost:44386/api/login",
+      "POST",
+      null,
+      JSON.stringify(newLogin)
+    );
   };
 
   return (
