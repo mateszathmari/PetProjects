@@ -12,6 +12,7 @@ export default function GetRecipes(query, from, to, dependencies) {
   const setLoading = useStoreActions((actions) => actions.search.setLoading);
   const setError = useStoreActions((actions) => actions.search.setError);
   //"https://api.edamam.com/search?q=chicken&app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}&from=0&to=3&calories=591-722&health=alcohol-free"
+  // details for edmam: https://developer.edamam.com/edamam-docs-recipe-api
 
   const [recipes, setRecipes] = useState([]);
 
