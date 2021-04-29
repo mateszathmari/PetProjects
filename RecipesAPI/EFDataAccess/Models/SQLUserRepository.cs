@@ -3,7 +3,7 @@ using EFDataAccess.DataAccess;
 
 namespace RecipesAPI.Models
 {
-    public class SQLUserRepository: IUserRepository
+    public class SQLUserRepository : IUserRepository
     {
         private readonly UserContext _context;
 
@@ -20,6 +20,17 @@ namespace RecipesAPI.Models
         public IEnumerable<User> GetUsers()
         {
             return _context.Users;
+        }
+
+        public Recipe AddFavoriteRecipeToUser(User user, Recipe recipe)
+        {
+            _context.Users.Find(user).Recipes.Add(recipe);
+            return recipe;
+        }
+
+        public List<Recipe> GetUserFavoriteRecipes(User user, Recipe recipe)
+        {
+            return _context.Users.Find(user).Recipes;
         }
 
         public User AddUser(User user)
@@ -47,6 +58,32 @@ namespace RecipesAPI.Models
             }
 
             return user;
+        }
+
+        public string GenerateTokenForUser(string userName)
+        {
+            User user = _context.Users.Find(userName);
+            if (user != null)
+            {
+                user.GenerateToken();
+                _context.Users.Update(user);
+                _context.SaveChanges();
+            }
+
+            return user.Token;
+        }
+
+        public string DeleteUserToken(string userName)
+        {
+            User user = _context.Users.Find(userName);
+            if (user != null)
+            {
+                user.DeleteToken();
+                _context.Users.Update(user);
+                _context.SaveChanges();
+            }
+
+            return user.Token;
         }
     }
 }

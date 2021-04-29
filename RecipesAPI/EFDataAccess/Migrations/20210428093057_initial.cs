@@ -2,7 +2,7 @@
 
 namespace EFDataAccess.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -69,6 +69,9 @@ namespace EFDataAccess.Migrations
                     id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false),
+                    Image = table.Column<string>(nullable: true),
+                    TotalTime = table.Column<int>(nullable: false),
+                    RecipeLink = table.Column<string>(nullable: true),
                     UserName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -81,6 +84,52 @@ namespace EFDataAccess.Migrations
                         principalColumn: "UserName",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "HealthLabel",
+                columns: table => new
+                {
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
+                    Recipeid = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HealthLabel", x => x.Name);
+                    table.ForeignKey(
+                        name: "FK_HealthLabel_Recipes_Recipeid",
+                        column: x => x.Recipeid,
+                        principalTable: "Recipes",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ingredient",
+                columns: table => new
+                {
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
+                    Recipeid = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ingredient", x => x.Name);
+                    table.ForeignKey(
+                        name: "FK_Ingredient_Recipes_Recipeid",
+                        column: x => x.Recipeid,
+                        principalTable: "Recipes",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HealthLabel_Recipeid",
+                table: "HealthLabel",
+                column: "Recipeid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ingredient_Recipeid",
+                table: "Ingredient",
+                column: "Recipeid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Recipes_UserName",
@@ -100,6 +149,12 @@ namespace EFDataAccess.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "HealthLabel");
+
+            migrationBuilder.DropTable(
+                name: "Ingredient");
+
             migrationBuilder.DropTable(
                 name: "Recipes");
 

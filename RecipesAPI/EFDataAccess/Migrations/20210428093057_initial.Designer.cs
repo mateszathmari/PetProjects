@@ -4,14 +4,16 @@ using EFDataAccess.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EFDataAccess.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20210428093057_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,6 +114,23 @@ namespace EFDataAccess.Migrations
                     b.ToTable("Recipes");
                 });
 
+            modelBuilder.Entity("RecipesAPI.Models.Token", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("TokenString")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tokens");
+                });
+
             modelBuilder.Entity("RecipesAPI.Models.User", b =>
                 {
                     b.Property<string>("UserName")
@@ -129,12 +148,14 @@ namespace EFDataAccess.Migrations
                     b.Property<string>("HashedPassword")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Token")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("TokenStringId")
+                        .HasColumnType("int");
 
                     b.HasKey("UserName");
 
                     b.HasIndex("AddressId");
+
+                    b.HasIndex("TokenStringId");
 
                     b.ToTable("Users");
                 });
@@ -167,6 +188,10 @@ namespace EFDataAccess.Migrations
                         .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("RecipesAPI.Models.Token", "TokenString")
+                        .WithMany()
+                        .HasForeignKey("TokenStringId");
                 });
 #pragma warning restore 612, 618
         }
