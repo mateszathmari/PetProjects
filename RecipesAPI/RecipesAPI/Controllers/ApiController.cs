@@ -26,17 +26,36 @@ namespace RecipesAPI.Controllers
 
 
         [HttpPost("login")]
-        public IActionResult Login([FromForm] string username, [FromForm] string password)
+        public IActionResult Login(UserCred userCred)
         {
-            User loginningUser = _sqlUserHandler.GetUser(username);
+            User loginningUser = _sqlUserHandler.GetUser(userCred.Username);
             if (loginningUser == null)
             {
                 return BadRequest();
             }
 
-            if (loginningUser.IsValidPassword(password))
+            if (loginningUser.IsValidPassword(userCred.Password))
             {
-                return Ok("successfully logged in");
+                string token = _sqlUserHandler.GenerateTokenForUser(userCred.Username);
+                return Ok(token);
+            }
+
+            return BadRequest();
+        }
+
+        [HttpPost("logout")]
+        public IActionResult Logout([FromForm] string username, [FromForm] string token)
+        {
+            User user = _sqlUserHandler.GetUser(username);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            if (user.IsValidToken(token))
+            {
+                _sqlUserHandler.DeleteUserToken(username);
+                return Ok("successfully logged out");
             }
 
             return BadRequest();
@@ -61,9 +80,9 @@ namespace RecipesAPI.Controllers
         }
 
         [HttpDelete("delete")]
-        public IActionResult DeleteUser([FromForm]string username, [FromForm] string password)
+        public IActionResult DeleteUser([FromForm]string userName, [FromForm] string password)
         {
-            User loginningUser = _sqlUserHandler.GetUser(username);
+            User loginningUser = _sqlUserHandler.GetUser(userName);
             if (loginningUser == null)
             {
                 return BadRequest();
@@ -71,11 +90,17 @@ namespace RecipesAPI.Controllers
 
             if (loginningUser.IsValidPassword(password))
             {
-                _sqlUserHandler.DeleteUser(username);
+                _sqlUserHandler.DeleteUser(userName);
                 return Ok("user successfully deleted");
             }
 
             return BadRequest();
+        }
+
+        [HttpGet("favorite-recipes")]
+        public List<Recipe> GetFavoriteRecipes(string userName, string Token)
+        {
+            return _sqlUserHandler.GetUser(userName).Recipes;
         }
     }
 }

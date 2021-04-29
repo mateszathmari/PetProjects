@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using RecipesAPI;
+using RecipesAPI.Models;
 using Xunit;
 
 namespace Recipes_backend.tests
@@ -25,15 +28,13 @@ namespace Recipes_backend.tests
         {
             // Arrange
             string url = "api/login";
-            var keyValuePairs = new List<KeyValuePair<string, string>>();
-            // Dummy Gmail account credentials
-            keyValuePairs.Add(new KeyValuePair<string, string>("username", "mateszathmari@gmail.com"));
-            keyValuePairs.Add(new KeyValuePair<string, string>("password", "1234"));
-            var req = new HttpRequestMessage(HttpMethod.Post, url) { Content = new FormUrlEncodedContent(keyValuePairs) };
+            UserCred userCred = new UserCred("mateszathmari@gmail.com", "1234");
+            string output = JsonConvert.SerializeObject(userCred);
+            var req = new HttpRequestMessage(HttpMethod.Post, url) { Content = new StringContent(output,
+                Encoding.UTF8, "application/json") };
 
             // Act
             var response = await _client.SendAsync(req);
-            Console.WriteLine(response.Content);
 
             // Assert
             Assert.IsTrue(response.StatusCode == HttpStatusCode.OK);
