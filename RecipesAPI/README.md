@@ -14,7 +14,7 @@ The story behind. I wanted to use my backend knowledge right after I finished my
 ## About
 This is a backend part of project Recipes, about recipes, as part of [Pet Projects](https://github.com/mateszathmari/PetProjects)<br> 
 
-* Communicating my React frontend[React frontend](https://github.com/mateszathmari/PetProjects/tree/master/recipes).
+* Communicating my React frontend [React frontend](https://github.com/mateszathmari/PetProjects/tree/master/recipes).
 * Using Axios for fetching data.
 * Entity framework for storing data.
 
