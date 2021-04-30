@@ -62,19 +62,17 @@ namespace RecipesAPI.Controllers
         }
 
         [HttpPost("registration")]
-        public IActionResult Registration([FromForm] string username, [FromForm] string password,
-            [FromForm] string email, [FromForm] string city, [FromForm] string street, [FromForm] int houseNumber,
-            [FromForm] string postCode)
+        public IActionResult Registration(RegistrationCred registrationCred)
         {
-            User loginningUserName = _sqlUserHandler.GetUser(username);
-            bool isLoginningUserEmailTaken = _sqlUserHandler.GetUsers().Any(x => x.Email == email);
+            User loginningUserName = _sqlUserHandler.GetUser(registrationCred.UserName);
+            bool isLoginningUserEmailTaken = _sqlUserHandler.GetUsers().Any(x => x.Email == registrationCred.Email);
             if (loginningUserName != null || isLoginningUserEmailTaken)
             {
                 return BadRequest("username or email already taken");
             }
 
-            Address userAddress = new Address(city, street, houseNumber, postCode);
-            User user = new User(username, email, userAddress, password); // we should validate the password as well if it strong enough
+            Address userAddress = new Address(registrationCred.City, registrationCred.Street, registrationCred.HouseNumber, registrationCred.PostCode);
+            User user = new User(registrationCred.UserName, registrationCred.Email, userAddress, registrationCred.Password); // we should validate the password as well if it strong enough
             _sqlUserHandler.AddUser(user);
             return Ok("successful registration");
         }
