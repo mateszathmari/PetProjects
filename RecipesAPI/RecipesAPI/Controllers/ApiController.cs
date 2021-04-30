@@ -44,17 +44,17 @@ namespace RecipesAPI.Controllers
         }
 
         [HttpPost("logout")]
-        public IActionResult Logout([FromForm] string username, [FromForm] string token)
+        public IActionResult Logout(AuthenticationCred authentication)
         {
-            User user = _sqlUserHandler.GetUser(username);
+            User user = _sqlUserHandler.GetUser(authentication.UserName);
             if (user == null)
             {
                 return BadRequest();
             }
 
-            if (user.IsValidToken(token))
+            if (user.IsValidToken(authentication.Token))
             {
-                _sqlUserHandler.DeleteUserToken(username);
+                _sqlUserHandler.DeleteUserToken(authentication.UserName);
                 return Ok("successfully logged out");
             }
 
