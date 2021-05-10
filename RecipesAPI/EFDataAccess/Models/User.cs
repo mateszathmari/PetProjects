@@ -17,6 +17,7 @@ namespace RecipesAPI.Models
         public string Token { get; set; }
         public string HashedPassword { get; set; }
         public List<Recipe> Recipes { get; set; } = new List<Recipe>();
+        public string Salt { get; set; }
 
         public User()
         {
@@ -24,6 +25,7 @@ namespace RecipesAPI.Models
 
         public User(string userName, string email, Address address, string password)
         {
+            Salt = GenerateUniqueSaltForUser();
             Address = address;
             UserName = userName;
             Email = email;
@@ -32,10 +34,7 @@ namespace RecipesAPI.Models
 
         private string HashingPassword(string password)
         {
-            // generate a 128-bit salt using a secure PRNG
-
-            string saltString = "SfHfrgd54af4Ghxxc8WxfSSD5y2vdg5dsg6";
-            byte[] salt = Encoding.ASCII.GetBytes(saltString);
+            byte[] salt = Encoding.ASCII.GetBytes(Salt);
 
             // derive a 256-bit subkey (use HMACSHA1 with 10,000 iterations)
             string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
@@ -61,6 +60,16 @@ namespace RecipesAPI.Models
             }
 
             return false;
+        }
+
+        private string GenerateUniqueSaltForUser()
+        {
+            byte[] salt = new byte[128 / 8];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(salt);
+            }
+            return Convert.ToBase64String(salt);
         }
 
         public string GenerateToken()

@@ -1,11 +1,11 @@
 ﻿namespace RecipesAPI.Models
 {
-    public class AuthenticationCred
+    public class AuthenticationCredential
     {
         public string UserName { get; set; }
         public string Token { get; set; }
 
-        public AuthenticationCred(string userName, string token)
+        public AuthenticationCredential(string userName, string token)
         {
             UserName = userName;
             Token = token;

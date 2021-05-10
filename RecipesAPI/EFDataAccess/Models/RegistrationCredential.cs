@@ -1,6 +1,6 @@
 ﻿namespace RecipesAPI.Models
 {
-    public class RegistrationCred
+    public class RegistrationCredential
     {
         public string City { get; set; }
         public string Street { get; set; }
@@ -12,7 +12,7 @@
 
 
 
-        public RegistrationCred(string userName, string password, string email, string city, string street,
+        public RegistrationCredential(string userName, string password, string email, string city, string street,
             int houseNumber, string postCode)
         {
             City = city;

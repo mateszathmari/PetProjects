@@ -26,25 +26,25 @@ namespace RecipesAPI.Controllers
 
 
         [HttpPost("login")]
-        public IActionResult Login(UserCred userCred)
+        public string Login(UserCredential userCred)
         {
             User loginningUser = _sqlUserHandler.GetUser(userCred.Username);
             if (loginningUser == null)
             {
-                return BadRequest();
+                return null;
             }
 
             if (loginningUser.IsValidPassword(userCred.Password))
             {
                 string token = _sqlUserHandler.GenerateTokenForUser(userCred.Username);
-                return Ok(token);
+                return token;
             }
 
-            return BadRequest();
+            return null;
         }
 
         [HttpPost("logout")]
-        public IActionResult Logout(AuthenticationCred authentication)
+        public IActionResult Logout(AuthenticationCredential authentication)
         {
             User user = _sqlUserHandler.GetUser(authentication.UserName);
             if (user == null)
@@ -62,7 +62,7 @@ namespace RecipesAPI.Controllers
         }
 
         [HttpPost("registration")]
-        public IActionResult Registration(RegistrationCred registrationCred)
+        public IActionResult Registration(RegistrationCredential registrationCred)
         {
             User loginningUserName = _sqlUserHandler.GetUser(registrationCred.UserName);
             bool isLoginningUserEmailTaken = _sqlUserHandler.GetUsers().Any(x => x.Email == registrationCred.Email);
@@ -78,17 +78,17 @@ namespace RecipesAPI.Controllers
         }
 
         [HttpDelete("delete")]
-        public IActionResult DeleteUser([FromForm]string userName, [FromForm] string password)
+        public IActionResult DeleteUser(UserCredential userCred)
         {
-            User loginningUser = _sqlUserHandler.GetUser(userName);
+            User loginningUser = _sqlUserHandler.GetUser(userCred.Username);
             if (loginningUser == null)
             {
                 return BadRequest();
             }
 
-            if (loginningUser.IsValidPassword(password))
+            if (loginningUser.IsValidPassword(userCred.Password))
             {
-                _sqlUserHandler.DeleteUser(userName);
+                _sqlUserHandler.DeleteUser(userCred.Username);
                 return Ok("user successfully deleted");
             }
 
