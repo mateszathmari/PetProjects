@@ -47,7 +47,7 @@ namespace Recipes_backend.tests
         }
 
         [Test]
-        public async Task Test2_Login_ValidCredential_ShouldReturnOk()
+        public async Task Test21_Login_ValidCredential_ShouldReturnToken()
         {
             // Arrange
             string url = "api/login";
@@ -66,6 +66,29 @@ namespace Recipes_backend.tests
 
             // Assert
             Assert.NotNull(_token);
+        }
+
+        [Test]
+        public async Task Test22_Login_ValidCredential_ShouldNotReturnToken()
+        {
+            // Arrange
+            string url = "api/login";
+            UserCred userCred = new UserCred("mateszathmari@gmail.com", "WrongPassword");
+            string output = JsonConvert.SerializeObject(userCred);
+            var req = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = new StringContent(output,
+                    Encoding.UTF8, "application/json")
+            };
+
+            // Act
+            var response = await _client.SendAsync(req);
+
+
+            var notValidToken = response.Content.ReadAsStringAsync().Result;
+
+            // Assert
+            Assert.AreEqual("", notValidToken);
         }
 
         [Test]
