@@ -16,3 +16,4 @@ You can find the repo: [Recipes](https://github.com/mateszathmari/PetProjects/tr
 ## Recipes Api
 This is my Recipes Api, storing information in entity framework.
 This will be a backend for React recipes.
+You can find the repo: [Recipes API](https://github.com/mateszathmari/PetProjects/tree/master/RecipesAPI)
