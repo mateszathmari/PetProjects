@@ -17,6 +17,7 @@ This is a backend part of project Recipes, about recipes, as part of [Pet Projec
 * Communicating my React frontend [React frontend](https://github.com/mateszathmari/PetProjects/tree/master/recipes).
 * Using Axios for fetching data.
 * Entity framework for storing data.
+* Storing user salted and hashed password and the unique salt for user.
 
 
 ## Routes
