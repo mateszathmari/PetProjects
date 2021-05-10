@@ -17,6 +17,7 @@ namespace Recipes_backend.tests
     class ApiControllerTests : IClassFixture<WebApplicationFactory<Startup>>
     {
         private HttpClient _client { get; }
+        private string _token;
 
         public ApiControllerTests()
         {
@@ -61,8 +62,10 @@ namespace Recipes_backend.tests
             // Act
             var response = await _client.SendAsync(req);
 
+            _token = response.Content.ReadAsStringAsync().Result;
+
             // Assert
-            Assert.IsTrue(response.StatusCode == HttpStatusCode.OK);
+            Assert.NotNull(_token);
         }
 
         [Test]
@@ -72,7 +75,7 @@ namespace Recipes_backend.tests
             string url = "api/logout";
             AuthenticationCred userCred =
                 new AuthenticationCred("mateszathmari@gmail.com",
-                    "AZw+xb0L2Ugyq7KGDyS9RqoHgr1GF/eR"); // we should get the token
+                    _token); // we should get the token
             string output = JsonConvert.SerializeObject(userCred);
             var req = new HttpRequestMessage(HttpMethod.Post, url)
             {

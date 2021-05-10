@@ -26,21 +26,21 @@ namespace RecipesAPI.Controllers
 
 
         [HttpPost("login")]
-        public IActionResult Login(UserCred userCred)
+        public string Login(UserCred userCred)
         {
             User loginningUser = _sqlUserHandler.GetUser(userCred.Username);
             if (loginningUser == null)
             {
-                return BadRequest();
+                return null;
             }
 
             if (loginningUser.IsValidPassword(userCred.Password))
             {
                 string token = _sqlUserHandler.GenerateTokenForUser(userCred.Username);
-                return Ok(token);
+                return token;
             }
 
-            return BadRequest();
+            return null;
         }
 
         [HttpPost("logout")]
