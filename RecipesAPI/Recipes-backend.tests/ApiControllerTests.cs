@@ -26,12 +26,12 @@ namespace Recipes_backend.tests
         }
 
         [Test]
-        public async Task Test1_Registration_ValidCredential_ShouldReturnOk()
+        public async Task Test11_Registration_ValidCredential_ShouldReturnOk()
         {
             // Arrange
             string url = "api/registration";
             Address address = new Address("city", "street", 55, "11");
-            RegistrationCredential registrationCred = new RegistrationCredential("username", "password","test@test.com", "city",  "street", 11,  "postCode");
+            RegistrationCredential registrationCred = new RegistrationCredential("username", "password", "test@test.com", "city", "street", 11, "postCode");
             string output = JsonConvert.SerializeObject(registrationCred);
             var req = new HttpRequestMessage(HttpMethod.Post, url)
             {
@@ -44,6 +44,48 @@ namespace Recipes_backend.tests
 
             // Assert
             Assert.IsTrue(response.StatusCode == HttpStatusCode.OK);
+        }
+
+        [Test]
+        public async Task Test12_Registration_UsedEmailCredential_ShouldNotReturnOk()
+        {
+            // Arrange
+            string url = "api/registration";
+            Address address = new Address("city", "street", 55, "11");
+            RegistrationCredential registrationCred = new RegistrationCredential("uniqueUsername", "password", "test@test.com", "city", "street", 11, "postCode");
+            string output = JsonConvert.SerializeObject(registrationCred);
+            var req = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = new StringContent(output,
+                    Encoding.UTF8, "application/json")
+            };
+
+            // Act
+            var response = await _client.SendAsync(req);
+
+            // Assert
+            Assert.IsFalse(response.StatusCode == HttpStatusCode.OK);
+        }
+
+        [Test]
+        public async Task Test13_Registration_UsedUsernameCredential_ShouldNotReturnOk()
+        {
+            // Arrange
+            string url = "api/registration";
+            Address address = new Address("city", "street", 55, "11");
+            RegistrationCredential registrationCred = new RegistrationCredential("username", "password", "UniqueEmail@test.com", "city", "street", 11, "postCode");
+            string output = JsonConvert.SerializeObject(registrationCred);
+            var req = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = new StringContent(output,
+                    Encoding.UTF8, "application/json")
+            };
+
+            // Act
+            var response = await _client.SendAsync(req);
+
+            // Assert
+            Assert.IsFalse(response.StatusCode == HttpStatusCode.OK);
         }
 
         [Test]
