@@ -2,12 +2,12 @@
 {
     public class AuthenticationCredential
     {
-        public string UserName { get; set; }
+        public string Username { get; set; }
         public string Token { get; set; }
 
-        public AuthenticationCredential(string userName, string token)
+        public AuthenticationCredential(string username, string token)
         {
-            UserName = userName;
+            Username = username;
             Token = token;
         }
     }
