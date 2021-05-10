@@ -96,17 +96,17 @@ namespace RecipesAPI.Controllers
         }
 
         [HttpGet("favorite-recipes")]
-        public List<Recipe> GetFavoriteRecipes(UserCredential userCred)
+        public List<Recipe> GetFavoriteRecipes(AuthenticationCredential authenticationCredential)
         {
-            User loginningUser = _sqlUserHandler.GetUser(userCred.Username);
+            User loginningUser = _sqlUserHandler.GetUser(authenticationCredential.UserName);
             if (loginningUser == null)
             {
                 return null;
             }
-            if (loginningUser.IsValidPassword(userCred.Password))
+            if (loginningUser.IsValidToken(authenticationCredential.Token))
             {
-                _sqlUserHandler.DeleteUser(userCred.Username);
-                return _sqlUserHandler.GetUser(userCred.Username).Recipes;
+                
+                return _sqlUserHandler.GetUser(authenticationCredential.UserName).Recipes;
             }
 
             return null;
