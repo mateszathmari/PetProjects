@@ -18,6 +18,8 @@ namespace Recipes_backend.tests
     {
         private HttpClient _client { get; }
         private string _token;
+        private int _ingredientId;
+        private int _healthLabelId;
 
         public ApiControllerTests()
         {
@@ -31,7 +33,8 @@ namespace Recipes_backend.tests
             // Arrange
             string url = "api/registration";
             Address address = new Address("city", "street", 55, "11");
-            RegistrationCredential registrationCred = new RegistrationCredential("username", "password", "test@test.com", "city", "street", 11, "postCode");
+            RegistrationCredential registrationCred = new RegistrationCredential("username", "password",
+                "test@test.com", "city", "street", 11, "postCode");
             string output = JsonConvert.SerializeObject(registrationCred);
             var req = new HttpRequestMessage(HttpMethod.Post, url)
             {
@@ -52,7 +55,8 @@ namespace Recipes_backend.tests
             // Arrange
             string url = "api/registration";
             Address address = new Address("city", "street", 55, "11");
-            RegistrationCredential registrationCred = new RegistrationCredential("uniqueUsername", "password", "test@test.com", "city", "street", 11, "postCode");
+            RegistrationCredential registrationCred = new RegistrationCredential("uniqueUsername", "password",
+                "test@test.com", "city", "street", 11, "postCode");
             string output = JsonConvert.SerializeObject(registrationCred);
             var req = new HttpRequestMessage(HttpMethod.Post, url)
             {
@@ -73,7 +77,8 @@ namespace Recipes_backend.tests
             // Arrange
             string url = "api/registration";
             Address address = new Address("city", "street", 55, "11");
-            RegistrationCredential registrationCred = new RegistrationCredential("username", "password", "UniqueEmail@test.com", "city", "street", 11, "postCode");
+            RegistrationCredential registrationCred = new RegistrationCredential("username", "password",
+                "UniqueEmail@test.com", "city", "street", 11, "postCode");
             string output = JsonConvert.SerializeObject(registrationCred);
             var req = new HttpRequestMessage(HttpMethod.Post, url)
             {
@@ -134,6 +139,195 @@ namespace Recipes_backend.tests
         }
 
         [Test]
+        public async Task Test231_AddIngredient_Ingredient_ShouldReturnIngredientId()
+        {
+            // Arrange
+            string url = "api/ingredient";
+            // We will need authentication for it later
+            Ingredient ingredient = new Ingredient("ingredient");
+            string output = JsonConvert.SerializeObject(ingredient);
+            var req = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = new StringContent(output,
+                    Encoding.UTF8, "application/json")
+            };
+
+            // Act
+            var response = await _client.SendAsync(req);
+            _ingredientId = Int32.Parse(response.Content.ReadAsStringAsync().Result);
+
+
+            // Assert
+            Assert.NotNull(_ingredientId);
+        }
+
+        
+
+        [Test]
+        public async Task Test232_GetIngredient_IngredientId_ShouldReturnOK()
+        {
+            // Arrange
+            string url = $"api/ingredient/{_ingredientId}";
+            // We will need authentication for it later
+
+            var req = new HttpRequestMessage(HttpMethod.Get, url);
+
+            // Act
+            var response = await _client.SendAsync(req);
+            var ingredient = response.Content.ReadAsStringAsync().Result;
+
+
+            // Assert
+            Assert.IsTrue(response.StatusCode == HttpStatusCode.OK);
+        }
+
+        [Test]
+        public async Task Test233_DeleteIngredient_IngredientId_ShouldReturnOk()
+        {
+            
+            // Arrange
+            string url = $"api/ingredient/{_ingredientId}";
+            // We will need authentication for it later
+
+            var req = new HttpRequestMessage(HttpMethod.Delete, url);
+
+            // Act
+            var response = await _client.SendAsync(req);
+            var ingredient = response.Content.ReadAsStringAsync().Result;
+
+
+            // Assert
+            Assert.IsTrue(response.StatusCode == HttpStatusCode.OK);
+        }
+
+        [Test]
+        public async Task Test234_AddHealthLabel_HealthLabel_ShouldReturnHealthLAbelId()
+        {
+            // Arrange
+            string url = "api/healthLabel-label";
+            // We will need authentication for it later
+            HealthLabel healthLabel = new HealthLabel("Healthy");
+            string output = JsonConvert.SerializeObject(healthLabel);
+            var req = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = new StringContent(output,
+                    Encoding.UTF8, "application/json")
+            };
+
+            // Act
+            var response = await _client.SendAsync(req);
+            _healthLabelId = Int32.Parse(response.Content.ReadAsStringAsync().Result);
+
+
+            // Assert
+            Assert.NotNull(_healthLabelId);
+        }
+
+        [Test]
+        public async Task Test235_GetHealthLabel_HealthLabelId_ShouldReturnOK()
+        {
+            
+            // Arrange
+            string url = $"api/healthLabel-label/{_healthLabelId}";
+            // We will need authentication for it later
+
+            var req = new HttpRequestMessage(HttpMethod.Get, url);
+
+            // Act
+            var response = await _client.SendAsync(req);
+            var healthLabel = response.Content.ReadAsStringAsync().Result;
+
+
+            // Assert
+            Assert.IsTrue(response.StatusCode == HttpStatusCode.OK);
+        }
+
+        [Test]
+        public async Task Test236_DeleteHealthLabel_HealthLabelId_ShouldReturnOk()
+        {
+           
+            // Arrange
+            string url = $"api/healthLabel-label/{_healthLabelId}";
+            // We will need authentication for it later
+
+            var req = new HttpRequestMessage(HttpMethod.Delete, url);
+
+            // Act
+            var response = await _client.SendAsync(req);
+            var healthLabel = response.Content.ReadAsStringAsync().Result;
+
+
+            // Assert
+            Assert.IsTrue(response.StatusCode == HttpStatusCode.OK);
+        }
+
+        [Test]
+        public async Task Test232_favoriteRecipes_ValidCredential_ShouldReturnRecipes()
+        {
+            //_token = "+CoClawT2UhmVIJN3M1ER7o7+bMkIhYJ";
+
+            // Arrange
+            string url = "api/favorite-recipes";
+            Ingredient ingredient = new Ingredient("food");
+            HealthLabel healthLabel = new HealthLabel("Healthy");
+            AuthenticationCredential authCred = new AuthenticationCredential("username", _token);
+
+            List<Ingredient> ingredeientList = new List<Ingredient>();
+            List<HealthLabel> healthLabels = new List<HealthLabel>();
+
+            ingredeientList.Add(ingredient);
+            healthLabels.Add(healthLabel);
+
+            Recipe recipe = new Recipe("foxodd", "image", 50,"http:link");
+
+            AddFavoriteRecipeCredential cred =
+                new AddFavoriteRecipeCredential("username", recipe, authCred);
+
+            string output = JsonConvert.SerializeObject(cred);
+
+            var req = new HttpRequestMessage(HttpMethod.Put, url)
+            {
+                Content = new StringContent(output,
+                    Encoding.UTF8, "application/json")
+            };
+
+            // Act
+            var response = await _client.SendAsync(req);
+            var recipes = response.Content.ReadAsStringAsync().Result;
+
+            // Assert
+            Assert.IsTrue(response.StatusCode == HttpStatusCode.OK);
+        }
+
+        [Test]
+        public async Task Test24_deleteFavoriteRecipes_ValidCredential_ShouldReturnRecipes()
+        {
+            //_token = "+CoClawT2UhmVIJN3M1ER7o7+bMkIhYJ";
+
+            // Arrange
+            string url = "api/favorite-recipes";
+            AuthenticationCredential authCred = new AuthenticationCredential("username", _token);
+
+            DeleteFavoriteRecipeCredential cred =
+                new DeleteFavoriteRecipeCredential(authCred,1);
+
+            string output = JsonConvert.SerializeObject(cred);
+
+            var req = new HttpRequestMessage(HttpMethod.Delete, url)
+            {
+                Content = new StringContent(output,
+                    Encoding.UTF8, "application/json")
+            };
+
+            // Act
+            var response = await _client.SendAsync(req);
+            var notValidToken = response.Content.ReadAsStringAsync().Result;
+
+            // Assert
+            Assert.IsTrue(response.StatusCode == HttpStatusCode.OK);
+        }
+
+        [Test]
         public async Task Test31_Logout_NotValidCredential_ShouldNotReturnOk()
         {
             // Arrange
@@ -154,6 +348,7 @@ namespace Recipes_backend.tests
             // Assert
             Assert.IsFalse(response.StatusCode == HttpStatusCode.OK);
         }
+
 
         [Test]
         public async Task Test32_Logout_ValidCredential_ShouldReturnOk()
