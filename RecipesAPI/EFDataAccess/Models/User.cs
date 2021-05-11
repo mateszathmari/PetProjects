@@ -16,7 +16,9 @@ namespace RecipesAPI.Models
         [Required] [MaxLength(300)] public Address Address { get; set; }
         public string Token { get; set; }
         public string HashedPassword { get; set; }
-        public List<Recipe> Recipes { get; set; } = new List<Recipe>();
+        //public List<Recipe> Recipes { get; set; } = new List<Recipe>();
+        public ICollection<UserRecipes> UserRecipes { get; set; } = new HashSet<UserRecipes>();
+
         public string Salt { get; set; }
 
         public User()

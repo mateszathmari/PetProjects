@@ -10,22 +10,22 @@ namespace RecipesAPI.Models
 
         public string Image { get; set; }
         public int TotalTime { get; set; }
-        public List<Ingredient> IngredientList { get; set; }
-        public List<HealthLabel> HealthLabels { get; set; }
+
+        public ICollection<UserRecipes> UserRecipes { get; set; } = new HashSet<UserRecipes>();
+        public ICollection<RecipeHealthLabels> RecipeHealthLabels { get; set; } = new HashSet<RecipeHealthLabels>();
+        public ICollection<RecipeIngredients> RecipeIngredients { get; set; } = new HashSet<RecipeIngredients>();
         public string RecipeLink { get; set; }
+
         public Recipe()
         {
-
         }
 
-        public Recipe(string name, string image, int totalTime, List<Ingredient> ingeIngredientList,
-            List<HealthLabel> healthLabels)
+        public Recipe(string name, string image, int totalTime, string recipeLink)
         {
             this.Name = name;
             this.Image = image;
             this.TotalTime = totalTime;
-            this.IngredientList = ingeIngredientList;
-            this.HealthLabels = healthLabels;
+            this.RecipeLink = recipeLink;
         }
     }
 }

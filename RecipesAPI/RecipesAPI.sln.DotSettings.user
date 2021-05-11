@@ -1,5 +1,27 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=69dcc7f8_002D8932_002D41fe_002Db893_002Dc7992b35cbd8/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Get_Authentication_Should_Return_Ok" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=46e1960e_002D1526_002D4058_002Da140_002Df4559ac92bc4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test23_favoriteRecipes_ValidCredential_ShouldReturnRecipes" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B92047D2-9568-435C-80BE-B44AF4B09D95::net5.0::Recipes_backend.tests.ApiControllerTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6240354c_002D2a14_002D4559_002Db794_002D550d404bbc9b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test231_AddIngredient_Ingredient_ShouldReturnIngredientId" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B92047D2-9568-435C-80BE-B44AF4B09D95::net5.0::Recipes_backend.tests.ApiControllerTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=627c715b_002D777c_002D4f66_002Dbac5_002D5fe1ec76fb36/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test232_GetIngredient_IngredientId_ShouldReturnIngredient" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B92047D2-9568-435C-80BE-B44AF4B09D95::net5.0::Recipes_backend.tests.ApiControllerTests.Test232_GetIngredient_IngredientId_ShouldReturnOK&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B92047D2-9568-435C-80BE-B44AF4B09D95::net5.0::Recipes_backend.tests.ApiControllerTests.Test233_DeleteIngredient_IngredientId_ShouldReturnOk&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B92047D2-9568-435C-80BE-B44AF4B09D95::net5.0::Recipes_backend.tests.ApiControllerTests.Test231_AddIngredient_Ingredient_ShouldReturnIngredientId&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=65ff71fe_002De402_002D42a1_002D830c_002D214dbb919fdb/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test231_AddIngredient_Ingredient_ShouldReturnIngredient" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B92047D2-9568-435C-80BE-B44AF4B09D95::net5.0::Recipes_backend.tests.ApiControllerTests.Test231_AddIngredient_Ingredient_ShouldReturnIngredient&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=69dcc7f8_002D8932_002D41fe_002Db893_002Dc7992b35cbd8/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Get_Authentication_Should_Return_Ok" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::B92047D2-9568-435C-80BE-B44AF4B09D95::net5.0::Recipes_backend.tests.ApiControllerTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
