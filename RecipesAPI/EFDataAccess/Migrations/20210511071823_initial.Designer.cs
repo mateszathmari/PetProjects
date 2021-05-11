@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFDataAccess.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20210510082355_salt")]
-    partial class salt
+    [Migration("20210511071823_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,11 @@ namespace EFDataAccess.Migrations
 
             modelBuilder.Entity("RecipesAPI.Models.HealthLabel", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
@@ -61,7 +66,7 @@ namespace EFDataAccess.Migrations
                     b.Property<int?>("Recipeid")
                         .HasColumnType("int");
 
-                    b.HasKey("Name");
+                    b.HasKey("Id");
 
                     b.HasIndex("Recipeid");
 
@@ -70,6 +75,11 @@ namespace EFDataAccess.Migrations
 
             modelBuilder.Entity("RecipesAPI.Models.Ingredient", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
@@ -77,7 +87,7 @@ namespace EFDataAccess.Migrations
                     b.Property<int?>("Recipeid")
                         .HasColumnType("int");
 
-                    b.HasKey("Name");
+                    b.HasKey("Id");
 
                     b.HasIndex("Recipeid");
 
@@ -104,14 +114,53 @@ namespace EFDataAccess.Migrations
                     b.Property<int>("TotalTime")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(100)");
-
                     b.HasKey("id");
 
-                    b.HasIndex("UserName");
-
                     b.ToTable("Recipes");
+                });
+
+            modelBuilder.Entity("RecipesAPI.Models.RecipeHealthLabels", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("HealthLabelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HealthLabelId");
+
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("RecipeHealthLabels");
+                });
+
+            modelBuilder.Entity("RecipesAPI.Models.RecipeIngredients", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("IngredientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IngredientId");
+
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("RecipeIngredients");
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.User", b =>
@@ -144,6 +193,32 @@ namespace EFDataAccess.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("RecipesAPI.Models.UserRecipes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("UserName1")
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipeId");
+
+                    b.HasIndex("UserName1");
+
+                    b.ToTable("UserRecipes");
+                });
+
             modelBuilder.Entity("RecipesAPI.Models.HealthLabel", b =>
                 {
                     b.HasOne("RecipesAPI.Models.Recipe", null)
@@ -158,11 +233,34 @@ namespace EFDataAccess.Migrations
                         .HasForeignKey("Recipeid");
                 });
 
-            modelBuilder.Entity("RecipesAPI.Models.Recipe", b =>
+            modelBuilder.Entity("RecipesAPI.Models.RecipeHealthLabels", b =>
                 {
-                    b.HasOne("RecipesAPI.Models.User", null)
-                        .WithMany("Recipes")
-                        .HasForeignKey("UserName");
+                    b.HasOne("RecipesAPI.Models.HealthLabel", "HealthLabel")
+                        .WithMany("RecipeHealthLabels")
+                        .HasForeignKey("HealthLabelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RecipesAPI.Models.Recipe", "Recipe")
+                        .WithMany("RecipeHealthLabels")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RecipesAPI.Models.RecipeIngredients", b =>
+                {
+                    b.HasOne("RecipesAPI.Models.Ingredient", "Ingredient")
+                        .WithMany("RecipeIngredients")
+                        .HasForeignKey("IngredientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RecipesAPI.Models.Recipe", "Recipe")
+                        .WithMany("RecipeIngredients")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("RecipesAPI.Models.User", b =>
@@ -172,6 +270,19 @@ namespace EFDataAccess.Migrations
                         .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("RecipesAPI.Models.UserRecipes", b =>
+                {
+                    b.HasOne("RecipesAPI.Models.Recipe", "Recipe")
+                        .WithMany("UserRecipes")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RecipesAPI.Models.User", "User")
+                        .WithMany("UserRecipes")
+                        .HasForeignKey("UserName1");
                 });
 #pragma warning restore 612, 618
         }
