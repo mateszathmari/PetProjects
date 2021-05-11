@@ -14,6 +14,9 @@ namespace EFDataAccess.DataAccess
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<HealthLabel> HealthLabels { get; set; }
+        public DbSet<UserRecipes> UserRecipes { get; set; }
+        public DbSet<RecipeIngredients> RecipeIngredients { get; set; }
+        public DbSet<RecipeHealthLabels> RecipeHealthLabels { get; set; }
     }
 }
 
