@@ -15,8 +15,8 @@ namespace RecipesAPI.Controllers
     public class ApiController : ControllerBase
     {
         private readonly ILogger<ApiController> _logger;
-        private readonly UserContext context;
-        private SQLUserRepository _sqlUserHandler;
+        private readonly UserContext _context;
+        private readonly SQLUserRepository _sqlUserHandler;
 
         public ApiController(ILogger<ApiController> logger, UserContext context)
         {
@@ -46,7 +46,7 @@ namespace RecipesAPI.Controllers
         [HttpPost("logout")]
         public IActionResult Logout(AuthenticationCredential authentication)
         {
-            User user = _sqlUserHandler.GetUser(authentication.UserName);
+            User user = _sqlUserHandler.GetUser(authentication.Username);
             if (user == null)
             {
                 return BadRequest();
@@ -54,7 +54,7 @@ namespace RecipesAPI.Controllers
 
             if (user.IsValidToken(authentication.Token))
             {
-                _sqlUserHandler.DeleteUserToken(authentication.UserName);
+                _sqlUserHandler.DeleteUserToken(authentication.Username);
                 return Ok("successfully logged out");
             }
 
@@ -71,8 +71,10 @@ namespace RecipesAPI.Controllers
                 return BadRequest("username or email already taken");
             }
 
-            Address userAddress = new Address(registrationCred.City, registrationCred.Street, registrationCred.HouseNumber, registrationCred.PostCode);
-            User user = new User(registrationCred.UserName, registrationCred.Email, userAddress, registrationCred.Password); // we should validate the password as well if it strong enough
+            Address userAddress = new Address(registrationCred.City, registrationCred.Street,
+                registrationCred.HouseNumber, registrationCred.PostCode);
+            User user = new User(registrationCred.UserName, registrationCred.Email, userAddress,
+                registrationCred.Password); // we should validate the password as well if it strong enough
             _sqlUserHandler.AddUser(user);
             return Ok("successful registration");
         }
@@ -98,24 +100,113 @@ namespace RecipesAPI.Controllers
         [HttpGet("favorite-recipes")]
         public List<Recipe> GetFavoriteRecipes(AuthenticationCredential authenticationCredential)
         {
-            User loginningUser = _sqlUserHandler.GetUser(authenticationCredential.UserName);
+            User loginningUser = _sqlUserHandler.GetUser(authenticationCredential.Username);
             if (loginningUser == null)
             {
                 return null;
             }
+
             if (loginningUser.IsValidToken(authenticationCredential.Token))
             {
-                
-                return _sqlUserHandler.GetUser(authenticationCredential.UserName).Recipes;
+                //return _sqlUserHandler.GetUser(authenticationCredential.Username).Recipes;
             }
 
             return null;
         }
 
         [HttpPut("favorite-recipes")]
-        public List<Recipe> AddFavoriteRecipes(string userName, string Token)
+        public List<Recipe> AddFavoriteRecipes(AddFavoriteRecipeCredential favoriteRecipeCredential)
         {
-            return _sqlUserHandler.GetUser(userName).Recipes;
+            User user = _sqlUserHandler.GetUser(favoriteRecipeCredential.Username);
+            if (user == null)
+            {
+                return null;
+            }
+
+            if (user.IsValidToken(favoriteRecipeCredential.AuthenticationCredential.Token))
+            {
+                _sqlUserHandler.AddFavoriteRecipeToUser(user.UserName, favoriteRecipeCredential.Recipe.id);
+                //return _sqlUserHandler.GetUser(favoriteRecipeCredential.Username).Recipes;
+            }
+
+            return null;
+        }
+
+        [HttpDelete("favorite-recipes")]
+        public List<Recipe> DeleteFavoriteRecipes(DeleteFavoriteRecipeCredential deleteFavoriteRecipeCredential)
+        {
+            User user = _sqlUserHandler.GetUser(deleteFavoriteRecipeCredential.AuthenticationCredential.Username);
+            if (user == null)
+            {
+                return null;
+            }
+
+            if (user.IsValidToken(deleteFavoriteRecipeCredential.AuthenticationCredential.Token))
+            {
+                _sqlUserHandler.DeleteFavoriteRecipeToUser(user.UserName, deleteFavoriteRecipeCredential.RecipeId);
+                //return _sqlUserHandler.GetUser(deleteFavoriteRecipeCredential.AuthenticationCredential.Username).Recipes;
+            }
+
+            return null;
+        }
+
+        [HttpPost("healthLabel-label")]
+        public int AddHealthLabel(HealthLabel healthLabel)
+        {
+            return _sqlUserHandler.AddHealthLabel(healthLabel.Name).Id;
+        }
+
+        [HttpGet("ingredient/{ingredientId:int}")]
+        public Ingredient GetIngredient(int ingredientId)
+        {
+            return _sqlUserHandler.GetIngredient(ingredientId);
+        }
+
+        [HttpGet("healthLabel-label/{healthLabelId:int}")]
+        public HealthLabel GetHealthLabel(int healthLabelId)
+        {
+            return _sqlUserHandler.GetHealthLabel(healthLabelId);
+        }
+
+        [HttpPost("ingredient")]
+        public int AddIngredient(Ingredient ingredient)
+        {
+            return _sqlUserHandler.AddIngredient(ingredient.Name).Id;
+        }
+
+        [HttpDelete("ingredient/{ingredientId:int}")]
+        public Ingredient DeleteIngredient(int ingredientId)
+        {
+            return _sqlUserHandler.DeleteIngredient(ingredientId);
+        }
+
+        [HttpDelete("healthLabel-label/{healthLabelId:int}")]
+        public HealthLabel DeleteHealthLabel(int healthLabelId)
+        {
+            return _sqlUserHandler.DeleteHealthLabel(healthLabelId);
+        }
+
+        [HttpPost("recipe")]
+        public Recipe AddRecipe(AddRecipeCredential addRecipeCredential)
+        {
+            User user = _sqlUserHandler.GetUser(addRecipeCredential.AuthenticationCredential.Username);
+            if (user == null)
+            {
+                return null;
+            }
+
+            if (!user.IsValidToken(addRecipeCredential.AuthenticationCredential.Token))
+            {
+                return null;
+            }
+            _sqlUserHandler.DeleteUserToken(addRecipeCredential.AuthenticationCredential.Username);
+            return _sqlUserHandler.AddRecipe(addRecipeCredential.RecipeCredential);
+        }
+
+        [HttpDelete("recipe")]
+        public Recipe DeleteRecipe(int recipeId)
+        {
+            return _sqlUserHandler.DeleteRecipe(recipeId);
         }
     }
 }
