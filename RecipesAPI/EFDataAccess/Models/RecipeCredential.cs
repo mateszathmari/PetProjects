@@ -15,6 +15,7 @@ namespace RecipesAPI.Models
         public RecipeCredential(Recipe recipe,
             ICollection<string> recipeHealthLabels, ICollection<string> recipeIngredients)
         {
+            Recipe = recipe;
             RecipeHealthLabels = recipeHealthLabels;
             RecipeIngredients = recipeIngredients;
         }
