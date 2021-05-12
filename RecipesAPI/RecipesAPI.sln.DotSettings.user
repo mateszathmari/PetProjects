@@ -4,7 +4,12 @@
     &lt;TestId&gt;NUnit3x::B92047D2-9568-435C-80BE-B44AF4B09D95::net5.0::Recipes_backend.tests.ApiControllerTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6240354c_002D2a14_002D4559_002Db794_002D550d404bbc9b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test231_AddIngredient_Ingredient_ShouldReturnIngredientId" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=57fbe4b7_002D23bd_002D4caa_002D8279_002D42828f20be5b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test232_GetIngredient_IngredientId_ShouldReturnOK" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B92047D2-9568-435C-80BE-B44AF4B09D95::net5.0::Recipes_backend.tests.ApiControllerTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6240354c_002D2a14_002D4559_002Db794_002D550d404bbc9b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test231_AddIngredient_Ingredient_ShouldReturnIngredientId" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::B92047D2-9568-435C-80BE-B44AF4B09D95::net5.0::Recipes_backend.tests.ApiControllerTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
@@ -21,7 +26,17 @@
     &lt;TestId&gt;NUnit3x::B92047D2-9568-435C-80BE-B44AF4B09D95::net5.0::Recipes_backend.tests.ApiControllerTests.Test231_AddIngredient_Ingredient_ShouldReturnIngredient&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=699aa872_002De144_002D4dce_002Db679_002D131a0acb9a3a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test244_deleteRecipes_ValidCredential_ShouldReturnOk" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B92047D2-9568-435C-80BE-B44AF4B09D95::net5.0::Recipes_backend.tests.ApiControllerTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=69dcc7f8_002D8932_002D41fe_002Db893_002Dc7992b35cbd8/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Get_Authentication_Should_Return_Ok" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::B92047D2-9568-435C-80BE-B44AF4B09D95::net5.0::Recipes_backend.tests.ApiControllerTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=aa538118_002D3280_002D48e3_002D8725_002D992cb8d7af4a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test241_AddToFavoriteRecipes_ValidCredential_ShouldReturnRecipeId" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::B92047D2-9568-435C-80BE-B44AF4B09D95::net5.0::Recipes_backend.tests.ApiControllerTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
