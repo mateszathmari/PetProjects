@@ -32,11 +32,22 @@ namespace RecipesAPI.Models
                 return null;
             }
 
-            UserRecipes userRecipes = new UserRecipes(user, recipe);
+            UserRecipe userRecipes = new UserRecipe(user, recipe);
             user.UserRecipes.Add(userRecipes);
             recipe.UserRecipes.Add(userRecipes);
             _context.SaveChanges();
             return recipe;
+        }
+
+        public IEnumerable<Recipe> GetUserFavoriteRecipes(string username)
+        {
+            User user = GetUser(username);
+            if (user == null)
+            {
+                return null;
+            }
+
+            return _context.UserRecipes.Where((x) => x.UserName == user.UserName).Select(x => x.Recipe).ToList();
         }
 
         public Recipe DeleteFavoriteRecipeToUser(string username, int recipeId)
@@ -48,7 +59,7 @@ namespace RecipesAPI.Models
                 return null;
             }
 
-            var userRecipe = _context.UserRecipes.FirstOrDefault(x => x.Recipe == recipe && x.UserName == username);
+            var userRecipe = _context.UserRecipes.FirstOrDefault(x => x.Recipe.id == recipe.id && x.UserName == username);
             if (userRecipe != null)
             {
                 _context.UserRecipes.Remove(userRecipe);
@@ -58,11 +69,21 @@ namespace RecipesAPI.Models
             return recipe;
         }
 
+        public IEnumerable<UserRecipe> GetUserRecipes(int recipeId)
+        {
+           return _context.UserRecipes.Where(x => x.RecipeId == recipeId);
+        }
+
         public Recipe DeleteRecipe(int recipeId)
         {
             Recipe recipe = GetRecipe(recipeId);
             if (recipe != null)
             {
+                var userRecipes = GetUserRecipes(recipeId);
+                foreach (UserRecipe userRecipe in userRecipes)
+                {
+                    DeleteUserRecipes(userRecipe.Id);
+                }
                 _context.Recipes.Remove(recipe);
                 _context.SaveChanges();
             }
@@ -70,15 +91,28 @@ namespace RecipesAPI.Models
             return recipe;
         }
 
+        private void DeleteUserRecipes(int userRecipeId)
+        {
+            _context.UserRecipes.Remove(GetUserRecipe(userRecipeId));
+            _context.SaveChanges();
+        }
+
+        private UserRecipe GetUserRecipe(int userRecipeId)
+        {
+            return _context.UserRecipes.Find(userRecipeId);
+        }
+
+
         public Recipe AddRecipe(RecipeCredential recipeCred)
         {
             Recipe recipe = recipeCred.Recipe;
             _context.Recipes.Add(recipe);
             _context.SaveChanges();
-
+            List<HealthLabel> healthLabels = _context.HealthLabels.ToList();
             foreach (string healthLabelString in recipeCred.RecipeHealthLabels)
             {
-                HealthLabel healthLabel = _context.HealthLabels.Find(healthLabelString);
+                
+                HealthLabel healthLabel = healthLabels.FirstOrDefault(x => x.Name == healthLabelString);
                 if (healthLabel == null)
                 {
                      healthLabel = AddHealthLabel(healthLabelString);
@@ -89,9 +123,10 @@ namespace RecipesAPI.Models
                 healthLabel.RecipeHealthLabels.Add(recipeHealthLabel);
             }
 
+            List<Ingredient> ingredients = _context.Ingredients.ToList();
             foreach (string ingredientString in recipeCred.RecipeIngredients)
             {
-                Ingredient ingredient = _context.Ingredients.Find(ingredientString);
+                Ingredient ingredient = ingredients.FirstOrDefault(x => x.Name == ingredientString);
                 if (ingredient == null)
                 {
                     ingredient = AddIngredient(ingredientString);
@@ -119,16 +154,6 @@ namespace RecipesAPI.Models
             return recipeChanges;
         }
 
-        public IEnumerable<Recipe> GetUserFavoriteRecipes(string username)
-        {
-            User user = GetUser(username);
-            if (user == null)
-            {
-                return null;
-            }
-
-            return _context.UserRecipes.Where((x) => x.UserName == user.UserName).Select(x => x.Recipe).ToList();
-        }
 
         public User AddUser(User user)
         {
@@ -150,6 +175,11 @@ namespace RecipesAPI.Models
             User user = _context.Users.Find(username);
             if (user != null)
             {
+                var favRecipes = GetUserFavoriteRecipes(user.UserName);
+                foreach (Recipe favRecipe in favRecipes)
+                {
+                    DeleteFavoriteRecipeToUser(user.UserName, favRecipe.id);
+                }
                 _context.Users.Remove(user);
                 _context.SaveChanges();
             }
