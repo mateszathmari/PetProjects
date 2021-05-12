@@ -2,17 +2,13 @@
 {
     public class AddFavoriteRecipeCredential
     {
-        public string Username { get; set; }
-        public Recipe Recipe { get; set; }
+        public int RecipeId { get; set; }
         public AuthenticationCredential AuthenticationCredential { get; set; }
 
-        public AddFavoriteRecipeCredential(string username, Recipe recipe, AuthenticationCredential authenticationCredential)
+        public AddFavoriteRecipeCredential(int recipeId, AuthenticationCredential authenticationCredential)
         {
-            Username = username;
-            Recipe = recipe;
+            RecipeId = recipeId;
             AuthenticationCredential = authenticationCredential;
         }
     }
-
-    
 }
