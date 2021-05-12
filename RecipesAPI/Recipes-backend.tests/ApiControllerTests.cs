@@ -316,16 +316,16 @@ namespace Recipes_backend.tests
             HealthLabel healthLabel = new HealthLabel("Healthy");
             AuthenticationCredential authCred = new AuthenticationCredential("username", _token);
 
-            List<string> ingredeientList = new List<string>();
+            List<string> ingredientList = new List<string>();
             List<string> healthLabels = new List<string>();
 
-            ingredeientList.Add("ingredient1");
-            ingredeientList.Add("ingredient2");
+            ingredientList.Add("ingredient1");
+            ingredientList.Add("ingredient2");
             healthLabels.Add("healthLabel1");
             healthLabels.Add("healthLabel2");
 
             Recipe recipe = new Recipe("food", "image", 50, "http:link");
-            RecipeCredential recipeCredential = new RecipeCredential(recipe, healthLabels, ingredeientList);
+            RecipeCredential recipeCredential = new RecipeCredential(recipe, healthLabels, ingredientList);
 
             AddRecipeCredential cred =
                 new AddRecipeCredential(authCred,recipeCredential);
