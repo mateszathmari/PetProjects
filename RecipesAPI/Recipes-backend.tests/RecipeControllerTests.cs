@@ -14,7 +14,7 @@ using Xunit;
 
 namespace Recipes_backend.tests
 {
-    class ApiControllerTests : IClassFixture<WebApplicationFactory<Startup>>
+    class RecipeControllerTests : IClassFixture<WebApplicationFactory<Startup>>
     {
         private HttpClient _client { get; }
         private string _token;
@@ -23,84 +23,32 @@ namespace Recipes_backend.tests
         private int _recipeId;
         private int _favRecipeId;
 
-        public ApiControllerTests()
+        public RecipeControllerTests()
         {
             var fixture = new WebApplicationFactory<Startup>();
             _client = fixture.CreateClient();
         }
 
-        [Test]
-        public async Task Test11_Registration_ValidCredential_ShouldReturnOk()
+        [OneTimeSetUp]
+        public async Task SetupBeforeEachTest()
         {
             // Arrange
-            string url = "user/registration";
+            string regUrl = "user/registration";
             Address address = new Address("city", "street", 55, "11");
-            RegistrationCredential registrationCred = new RegistrationCredential("username", "password",
-                "test@test.com", "city", "street", 11, "postCode");
-            string output = JsonConvert.SerializeObject(registrationCred);
-            var req = new HttpRequestMessage(HttpMethod.Post, url)
+            RegistrationCredential registrationCred = new RegistrationCredential("recipe", "password",
+                "Recipe@test.com", "city", "street", 11, "postCode");
+            string regOutput = JsonConvert.SerializeObject(registrationCred);
+            var regReq = new HttpRequestMessage(HttpMethod.Post, regUrl)
             {
-                Content = new StringContent(output,
+                Content = new StringContent(regOutput,
                     Encoding.UTF8, "application/json")
             };
 
             // Act
-            var response = await _client.SendAsync(req);
+            var regResponse = await _client.SendAsync(regReq);
 
-            // Assert
-            Assert.IsTrue(response.StatusCode == HttpStatusCode.OK);
-        }
-
-        [Test]
-        public async Task Test12_Registration_UsedEmailCredential_ShouldNotReturnOk()
-        {
-            // Arrange
-            string url = "user/registration";
-            Address address = new Address("city", "street", 55, "11");
-            RegistrationCredential registrationCred = new RegistrationCredential("uniqueUsername", "password",
-                "test@test.com", "city", "street", 11, "postCode");
-            string output = JsonConvert.SerializeObject(registrationCred);
-            var req = new HttpRequestMessage(HttpMethod.Post, url)
-            {
-                Content = new StringContent(output,
-                    Encoding.UTF8, "application/json")
-            };
-
-            // Act
-            var response = await _client.SendAsync(req);
-
-            // Assert
-            Assert.IsFalse(response.StatusCode == HttpStatusCode.OK);
-        }
-
-        [Test]
-        public async Task Test13_Registration_UsedUsernameCredential_ShouldNotReturnOk()
-        {
-            // Arrange
-            string url = "user/registration";
-            Address address = new Address("city", "street", 55, "11");
-            RegistrationCredential registrationCred = new RegistrationCredential("username", "password",
-                "UniqueEmail@test.com", "city", "street", 11, "postCode");
-            string output = JsonConvert.SerializeObject(registrationCred);
-            var req = new HttpRequestMessage(HttpMethod.Post, url)
-            {
-                Content = new StringContent(output,
-                    Encoding.UTF8, "application/json")
-            };
-
-            // Act
-            var response = await _client.SendAsync(req);
-
-            // Assert
-            Assert.IsFalse(response.StatusCode == HttpStatusCode.OK);
-        }
-
-        [Test]
-        public async Task Test21_Login_ValidCredential_ShouldReturnToken()
-        {
-            // Arrange
             string url = "user/login";
-            UserCredential userCred = new UserCredential("username", "password");
+            UserCredential userCred = new UserCredential("recipe", "password");
             string output = JsonConvert.SerializeObject(userCred);
             var req = new HttpRequestMessage(HttpMethod.Post, url)
             {
@@ -112,19 +60,17 @@ namespace Recipes_backend.tests
             var response = await _client.SendAsync(req);
 
             _token = response.Content.ReadAsStringAsync().Result;
-
-            // Assert
-            Assert.NotNull(_token);
         }
 
-        [Test]
-        public async Task Test22_Login_NotValidCredential_ShouldNotReturnToken()
+        [OneTimeTearDown]
+        public async Task GlobalTeardown()
         {
             // Arrange
-            string url = "user/login";
-            UserCredential userCred = new UserCredential("username", "WrongPassword");
-            string output = JsonConvert.SerializeObject(userCred);
-            var req = new HttpRequestMessage(HttpMethod.Post, url)
+            string url = "user/delete";
+            UserCredential loginCredential =
+                new UserCredential("recipe", "password");
+            string output = JsonConvert.SerializeObject(loginCredential);
+            var req = new HttpRequestMessage(HttpMethod.Delete, url)
             {
                 Content = new StringContent(output,
                     Encoding.UTF8, "application/json")
@@ -132,13 +78,8 @@ namespace Recipes_backend.tests
 
             // Act
             var response = await _client.SendAsync(req);
-
-
-            var notValidToken = response.Content.ReadAsStringAsync().Result;
-
-            // Assert
-            Assert.AreEqual("", notValidToken);
         }
+
 
         [Test]
         public async Task Test231_AddIngredient_Ingredient_ShouldReturnIngredientId()
@@ -163,12 +104,10 @@ namespace Recipes_backend.tests
             Assert.NotNull(_ingredientId);
         }
 
-        
 
         [Test]
         public async Task Test232_GetIngredient_IngredientId_ShouldReturnOK()
         {
-            
             // Arrange
             string url = $"recipe/ingredient/{_ingredientId}";
             // We will need authentication for it later
@@ -247,7 +186,6 @@ namespace Recipes_backend.tests
         [Test]
         public async Task Test235_GetHealthLabel_HealthLabelId_ShouldReturnOK()
         {
-            
             // Arrange
             string url = $"recipe/healthLabel-label/{_healthLabelId}";
             // We will need authentication for it later
@@ -284,7 +222,6 @@ namespace Recipes_backend.tests
         [Test]
         public async Task Test237_DeleteHealthLabel_WrongHealthLabelId_ShouldNotReturnOk()
         {
-
             // Arrange
             // _healthLabelId should not be anymore in db because I delete it in previous test
             string url = $"recipe/healthLabel-label/{_healthLabelId}";
@@ -302,19 +239,16 @@ namespace Recipes_backend.tests
         }
 
 
-        
-
         [Test]
         public async Task Test238_AddRecipe_ValidCredential_ShouldReturnRecipe()
         {
-            
             //_token = "Gc8IvhMV2Uh5rXkbMLRkTY5E+Z9j0229";
 
             // Arrange
             string url = "recipe/recipe";
             Ingredient ingredient = new Ingredient("food");
             HealthLabel healthLabel = new HealthLabel("Healthy");
-            AuthenticationCredential authCred = new AuthenticationCredential("username", _token);
+            AuthenticationCredential authCred = new AuthenticationCredential("recipe", _token);
 
             List<string> ingredientList = new List<string>();
             List<string> healthLabels = new List<string>();
@@ -328,7 +262,7 @@ namespace Recipes_backend.tests
             RecipeCredential recipeCredential = new RecipeCredential(recipe, healthLabels, ingredientList);
 
             AddRecipeCredential cred =
-                new AddRecipeCredential(authCred,recipeCredential);
+                new AddRecipeCredential(authCred, recipeCredential);
 
             string output = JsonConvert.SerializeObject(cred);
 
@@ -354,7 +288,7 @@ namespace Recipes_backend.tests
 
             // Arrange
             string url = "recipe/favorite-recipes";
-            AuthenticationCredential authCred = new AuthenticationCredential("username", _token);
+            AuthenticationCredential authCred = new AuthenticationCredential("recipe", _token);
 
 
             AddFavoriteRecipeCredential cred =
@@ -386,7 +320,7 @@ namespace Recipes_backend.tests
             string url = "recipe/favorite-recipes";
 
             AuthenticationCredential cred =
-                new AuthenticationCredential("username", _token);
+                new AuthenticationCredential("recipe", _token);
 
             string output = JsonConvert.SerializeObject(cred);
 
@@ -407,12 +341,11 @@ namespace Recipes_backend.tests
         [Test]
         public async Task Test2421_GetFavoriteRecipes_NotValidCredential_ShouldNotReturnRecipes()
         {
-
             // Arrange
             string url = "recipe/favorite-recipes";
 
             AuthenticationCredential cred =
-                new AuthenticationCredential("username", "not valid token");
+                new AuthenticationCredential("recipe", "not valid token");
 
             string output = JsonConvert.SerializeObject(cred);
 
@@ -438,7 +371,7 @@ namespace Recipes_backend.tests
 
             // Arrange
             string url = "recipe/favorite-recipes";
-            AuthenticationCredential authCred = new AuthenticationCredential("username", _token);
+            AuthenticationCredential authCred = new AuthenticationCredential("recipe", _token);
 
             DeleteFavoriteRecipeCredential cred =
                 new DeleteFavoriteRecipeCredential(authCred, _favRecipeId);
@@ -467,10 +400,10 @@ namespace Recipes_backend.tests
 
             // Arrange
             string url = "recipe/recipe";
-            AuthenticationCredential authCred = new AuthenticationCredential("username", _token);
+            AuthenticationCredential authCred = new AuthenticationCredential("recipe", _token);
 
             DeleteRecipeCredential cred =
-                new DeleteRecipeCredential(authCred,_recipeId);
+                new DeleteRecipeCredential(authCred, _recipeId);
 
             string output = JsonConvert.SerializeObject(cred);
 
@@ -483,93 +416,6 @@ namespace Recipes_backend.tests
             // Act
             var response = await _client.SendAsync(req);
             var notValidToken = response.Content.ReadAsStringAsync().Result;
-
-            // Assert
-            Assert.IsTrue(response.StatusCode == HttpStatusCode.OK);
-        }
-
-        [Test]
-        public async Task Test31_Logout_NotValidCredential_ShouldNotReturnOk()
-        {
-            // Arrange
-            string url = "user/logout";
-            AuthenticationCredential userCred =
-                new AuthenticationCredential("username",
-                    "wrong Token"); // we should get the token
-            string output = JsonConvert.SerializeObject(userCred);
-            var req = new HttpRequestMessage(HttpMethod.Post, url)
-            {
-                Content = new StringContent(output,
-                    Encoding.UTF8, "application/json")
-            };
-
-            // Act
-            var response = await _client.SendAsync(req);
-
-            // Assert
-            Assert.IsFalse(response.StatusCode == HttpStatusCode.OK);
-        }
-
-
-        [Test]
-        public async Task Test32_Logout_ValidCredential_ShouldReturnOk()
-        {
-            // Arrange
-            string url = "user/logout";
-            AuthenticationCredential userCred =
-                new AuthenticationCredential("username",
-                    _token); // we should get the token
-            string output = JsonConvert.SerializeObject(userCred);
-            var req = new HttpRequestMessage(HttpMethod.Post, url)
-            {
-                Content = new StringContent(output,
-                    Encoding.UTF8, "application/json")
-            };
-
-            // Act
-            var response = await _client.SendAsync(req);
-
-            // Assert
-            Assert.IsTrue(response.StatusCode == HttpStatusCode.OK);
-        }
-
-        [Test]
-        public async Task Test41_Delete_NotValidCredential_ShouldNotReturnOk()
-        {
-            // Arrange
-            string url = "user/delete";
-            UserCredential loginCredential =
-                new UserCredential("username", "WrongPassword");
-            string output = JsonConvert.SerializeObject(loginCredential);
-            var req = new HttpRequestMessage(HttpMethod.Delete, url)
-            {
-                Content = new StringContent(output,
-                    Encoding.UTF8, "application/json")
-            };
-
-            // Act
-            var response = await _client.SendAsync(req);
-
-            // Assert
-            Assert.IsFalse(response.StatusCode == HttpStatusCode.OK);
-        }
-
-        [Test]
-        public async Task Test42_Delete_ValidCredential_ShouldReturnOk()
-        {
-            // Arrange
-            string url = "user/delete";
-            UserCredential loginCredential =
-                new UserCredential("username", "password");
-            string output = JsonConvert.SerializeObject(loginCredential);
-            var req = new HttpRequestMessage(HttpMethod.Delete, url)
-            {
-                Content = new StringContent(output,
-                    Encoding.UTF8, "application/json")
-            };
-
-            // Act
-            var response = await _client.SendAsync(req);
 
             // Assert
             Assert.IsTrue(response.StatusCode == HttpStatusCode.OK);
