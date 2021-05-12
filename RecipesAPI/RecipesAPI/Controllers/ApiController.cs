@@ -17,11 +17,13 @@ namespace RecipesAPI.Controllers
         private readonly ILogger<ApiController> _logger;
         private readonly UserContext _context;
         private readonly SQLUserRepository _sqlUserHandler;
+        private readonly SQLRecipeRepository _sqlRecipeHandler;
 
         public ApiController(ILogger<ApiController> logger, UserContext context)
         {
             _logger = logger;
             _sqlUserHandler = new SQLUserRepository(context);
+            _sqlRecipeHandler = new SQLRecipeRepository(context, _sqlUserHandler);
         }
 
 
@@ -90,6 +92,7 @@ namespace RecipesAPI.Controllers
 
             if (loginningUser.IsValidPassword(userCred.Password))
             {
+                _sqlRecipeHandler.DeleteAllFavoriteUserRecipe(userCred.Username);
                 _sqlUserHandler.DeleteUser(userCred.Username);
                 return Ok("user successfully deleted");
             }
@@ -110,7 +113,8 @@ namespace RecipesAPI.Controllers
             {
                 return null;
             }
-            return _sqlUserHandler.GetUserFavoriteRecipes(authenticationCredential.Username).ToList();
+
+            return _sqlRecipeHandler.GetUserFavoriteRecipes(authenticationCredential.Username).ToList();
         }
 
         [HttpPut("favorite-recipes")]
@@ -126,7 +130,8 @@ namespace RecipesAPI.Controllers
             {
                 return BadRequest("Wrong username or token");
             }
-            Recipe recipe = _sqlUserHandler.AddFavoriteRecipeToUser(user.UserName, favoriteRecipeCredential.RecipeId);
+
+            Recipe recipe = _sqlRecipeHandler.AddFavoriteRecipeToUser(user.UserName, favoriteRecipeCredential.RecipeId);
             return Ok(recipe.id);
         }
 
@@ -141,7 +146,7 @@ namespace RecipesAPI.Controllers
 
             if (user.IsValidToken(deleteFavoriteRecipeCredential.AuthenticationCredential.Token))
             {
-                _sqlUserHandler.DeleteFavoriteRecipeToUser(user.UserName, deleteFavoriteRecipeCredential.RecipeId);
+                _sqlRecipeHandler.DeleteFavoriteRecipeToUser(user.UserName, deleteFavoriteRecipeCredential.RecipeId);
                 return Ok();
                 //return _sqlUserHandler.GetUser(deleteFavoriteRecipeCredential.AuthenticationCredential.Username).Recipes;
             }
@@ -152,11 +157,12 @@ namespace RecipesAPI.Controllers
         [HttpPost("healthLabel-label")]
         public IActionResult AddHealthLabel(HealthLabel healthLabel)
         {
-            HealthLabel newHealthLabel = _sqlUserHandler.AddHealthLabel(healthLabel.Name);
+            HealthLabel newHealthLabel = _sqlRecipeHandler.AddHealthLabel(healthLabel.Name);
             if (newHealthLabel != null)
             {
                 return Ok(newHealthLabel.Id);
             }
+
             return BadRequest();
         }
 
@@ -164,56 +170,60 @@ namespace RecipesAPI.Controllers
         [HttpGet("healthLabel-label/{healthLabelId:int}")]
         public IActionResult GetHealthLabel(int healthLabelId)
         {
-            HealthLabel healthLabel = _sqlUserHandler.GetHealthLabel(healthLabelId);
+            HealthLabel healthLabel = _sqlRecipeHandler.GetHealthLabel(healthLabelId);
             if (healthLabel != null)
             {
                 return Ok(healthLabel);
             }
+
             return BadRequest();
-            
         }
 
         [HttpPost("ingredient")]
         public IActionResult AddIngredient(Ingredient ingredient)
         {
-            Ingredient newIngredient = _sqlUserHandler.AddIngredient(ingredient.Name);
+            Ingredient newIngredient = _sqlRecipeHandler.AddIngredient(ingredient.Name);
             if (newIngredient != null)
             {
                 return Ok(newIngredient.Id);
             }
+
             return BadRequest();
         }
 
         [HttpGet("ingredient/{ingredientId:int}")]
         public IActionResult GetIngredient(int ingredientId)
         {
-            Ingredient ingredient = _sqlUserHandler.GetIngredient(ingredientId);
+            Ingredient ingredient = _sqlRecipeHandler.GetIngredient(ingredientId);
             if (ingredient != null)
             {
                 return Ok(ingredient);
             }
+
             return BadRequest();
         }
 
         [HttpDelete("ingredient/{ingredientId:int}")]
         public IActionResult DeleteIngredient(int ingredientId)
         {
-            Ingredient ingredient = _sqlUserHandler.DeleteIngredient(ingredientId);
+            Ingredient ingredient = _sqlRecipeHandler.DeleteIngredient(ingredientId);
             if (ingredient != null)
             {
                 return Ok(ingredient);
             }
+
             return BadRequest();
         }
 
         [HttpDelete("healthLabel-label/{healthLabelId:int}")]
         public IActionResult DeleteHealthLabel(int healthLabelId)
         {
-            HealthLabel healthLabel = _sqlUserHandler.DeleteHealthLabel(healthLabelId);
+            HealthLabel healthLabel = _sqlRecipeHandler.DeleteHealthLabel(healthLabelId);
             if (healthLabel != null)
             {
                 return Ok(healthLabel);
             }
+
             return BadRequest();
         }
 
@@ -230,11 +240,13 @@ namespace RecipesAPI.Controllers
             {
                 return BadRequest("Wrong username or token");
             }
-            Recipe recipe = _sqlUserHandler.AddRecipe(addRecipeCredential.RecipeCredential);
+
+            Recipe recipe = _sqlRecipeHandler.AddRecipe(addRecipeCredential.RecipeCredential);
             if (recipe != null)
             {
                 return Ok(recipe.id);
             }
+
             return BadRequest();
         }
 
@@ -251,7 +263,8 @@ namespace RecipesAPI.Controllers
             {
                 return BadRequest("Wrong username or token");
             }
-            _sqlUserHandler.DeleteRecipe(deleteRecipeCredential.RecipeId);
+
+            _sqlRecipeHandler.DeleteRecipe(deleteRecipeCredential.RecipeId);
             return Ok();
         }
     }

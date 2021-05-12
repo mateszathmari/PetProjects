@@ -205,7 +205,7 @@ namespace Recipes_backend.tests
         [Test]
         public async Task Test2332_DeleteIngredient_WrongIngredientId_ShouldNotReturnOk()
         {
-            _ingredientId = 15;
+            //_ingredientId = 15;
             // Arrange
             string url = $"api/ingredient/{_ingredientId}";
             // We will need authentication for it later
@@ -349,8 +349,8 @@ namespace Recipes_backend.tests
         [Test]
         public async Task Test241_AddToFavoriteRecipes_ValidCredential_ShouldReturnRecipeId()
         {
-            //_token = "+9KBySEV2UionSvmxcoQQqC44oISvCQp";
-            //_recipeId = 15;
+            //_token = "/T7itjwV2Uiha8zJJlrBQYUzScbklFtg";
+            //_recipeId = 16;
 
             // Arrange
             string url = "api/favorite-recipes";
@@ -433,8 +433,8 @@ namespace Recipes_backend.tests
         [Test]
         public async Task Test243_deleteFavoriteRecipes_ValidCredential_ShouldReturnRecipes()
         {
-            //_token = "+9KBySEV2UionSvmxcoQQqC44oISvCQp";
-            //_favRecipeId = 15;
+            //_token = "/T7itjwV2Uiha8zJJlrBQYUzScbklFtg";
+            //_recipeId = 16;
 
             // Arrange
             string url = "api/favorite-recipes";
