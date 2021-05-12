@@ -17,7 +17,7 @@ namespace RecipesAPI.Models
         public string Token { get; set; }
         public string HashedPassword { get; set; }
         //public List<Recipe> Recipes { get; set; } = new List<Recipe>();
-        public ICollection<UserRecipes> UserRecipes { get; set; } = new HashSet<UserRecipes>();
+        public ICollection<UserRecipe> UserRecipes { get; set; } = new HashSet<UserRecipe>();
 
         public string Salt { get; set; }
 
